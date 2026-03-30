@@ -909,6 +909,27 @@ h1, h2, h3, h4, h5, h6 {
     font-size: var(--font-size-sm);
 }
 
+.timeline-subtitle-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.company-links {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.company-links a {
+    color: var(--color-text-tertiary);
+    font-size: 0.9rem;
+    transition: color var(--transition-base);
+}
+
+.company-links a:hover {
+    color: var(--color-primary);
+}
+
 .timeline-list {
     list-style: none;
     padding-left: 0;
