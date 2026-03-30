@@ -203,6 +203,18 @@ function init() {
     // Add loaded class to body for CSS transitions
     document.body.classList.add('loaded');
     
+    // Animate hero photo on load
+    const heroPhoto = document.querySelector('.hero-image-ring');
+    if (heroPhoto) {
+      heroPhoto.style.opacity = '0';
+      heroPhoto.style.transform = 'scale(0.92)';
+      setTimeout(() => {
+        heroPhoto.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        heroPhoto.style.opacity = '1';
+        heroPhoto.style.transform = 'scale(1)';
+      }, 200);
+    }
+    
     console.log('Portfolio initialized successfully 🚀');
 }
 
