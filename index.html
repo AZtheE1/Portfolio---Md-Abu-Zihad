@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Md. Abu Zihad — Computer Science Engineer specializing in algorithm optimization, system design, and full-stack development.">
+    <meta name="description"
+        content="Md. Abu Zihad — Computer Science Engineer specializing in algorithm optimization, system design, and full-stack development.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Md. Abu Zihad | CS Engineer Portfolio</title>
-    
+
     <link rel="stylesheet" href="style.css">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+
+    <!-- Preload Hero Image for LCP -->
+    <link rel="preload" as="image" href="formalPic_white_bg.jpeg" fetchpriority="high">
+
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
 </head>
+
 <body>
     <nav class="navbar" aria-label="Main Navigation">
         <div class="container">
@@ -23,12 +30,12 @@
                 <span class="logo-icon">⚡</span>
                 <a href="#home" class="brand-name">Md. Abu Zihad</a>
             </div>
-            
-            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+
+            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
                 <span class="menu-icon"></span>
             </button>
-            
-            <ul class="nav-links">
+
+            <ul class="nav-links" id="nav-menu">
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#skills" class="nav-link">Skills</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
@@ -39,59 +46,138 @@
     </nav>
 
     <section id="home" class="hero" aria-labelledby="hero-heading">
-      <div class="container">
-        <div class="hero-inner">
-          <div class="hero-text">
-            <div class="hero-badge">
-              <span class="badge-dot"></span>
-              Available for opportunities
+        <div class="container">
+            <div class="hero-inner">
+
+                <!-- LEFT TEXT COLUMN -->
+                <div class="hero-left">
+                    <div class="status-badge">
+                        <span class="badge-pulse"></span>
+                        Open to internships &amp; opportunities
+                    </div>
+
+                    <h1 id="hero-heading" class="hero-heading">
+                        Md. Abu <span class="text-gradient">Zihad</span>
+                    </h1>
+                    <p class="hero-role">Computer Science Engineer &nbsp;·&nbsp; BUP '27</p>
+
+                    <p class="hero-bio">
+                        CS student at <strong>Bangladesh University of Professionals</strong> with a
+                        <strong>3.88/4.00 CGPA</strong>. I build efficient software — from
+                        DSA-optimized desktop apps to full-stack systems with secure database integration.
+                        Currently training in <strong>product management &amp; strategy</strong> at PM Heaven,
+                        where I work on SRS writing, market research, competitive analysis, and web development.
+                    </p>
+
+                    <!-- STATS BAR -->
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-value" style="color:#3b82f6">3.85</span>
+                            <span class="stat-label">CGPA / 4.00</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat">
+                            <span class="stat-value" style="color:#a855f7">3+</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat">
+                            <span class="stat-value" style="color:#06b6d4">5.00</span>
+                            <span class="stat-label">HSC GPA</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat">
+                            <span class="stat-value" style="color:#f59e0b">ICPC</span>
+                            <span class="stat-label">Dhaka Regional</span>
+                        </div>
+                    </div>
+
+                    <!-- SKILL TAGS -->
+                    <div class="hero-tags">
+                        <span class="hero-tag"><span class="tag-dot" style="background:#3b82f6"></span>Java</span>
+                        <span class="hero-tag"><span class="tag-dot" style="background:#a855f7"></span>C / C++</span>
+                        <span class="hero-tag"><span class="tag-dot" style="background:#06b6d4"></span>DSA</span>
+                        <span class="hero-tag"><span class="tag-dot" style="background:#10b981"></span>MySQL</span>
+                        <span class="hero-tag"><span class="tag-dot" style="background:#f59e0b"></span>System
+                            Design</span>
+                        <span class="hero-tag"><span class="tag-dot" style="background:#ec4899"></span>Product
+                            Strategy</span>
+                        <span class="hero-tag"><span class="tag-dot" style="background:#8b5cf6"></span>Linux</span>
+                        <span class="hero-tag"><span class="tag-dot" style="background:#64748b"></span>Git</span>
+                    </div>
+
+                    <!-- BUTTONS -->
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">
+                            <i class="fas fa-code"></i> View Projects
+                        </a>
+                        <a href="resume.pdf" target="_blank" class="btn btn-outline">
+                            <i class="fas fa-download"></i> Download CV
+                        </a>
+                    </div>
+
+                    <!-- SOCIAL ROW -->
+                    <div class="hero-social">
+                        <a href="https://github.com/AZtheE1" class="hero-social-link" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i> github.com/AZtheE1
+                        </a>
+                        <span class="hero-social-sep">·</span>
+                        <a href="https://www.linkedin.com/in/md-abu-zihad-27908a311/" class="hero-social-link"
+                            target="_blank" rel="noopener">
+                            <i class="fab fa-linkedin"></i> LinkedIn
+                        </a>
+                        <span class="hero-social-sep">·</span>
+                        <a href="mailto:azihad783@gmail.com" class="hero-social-link">
+                            <i class="fas fa-envelope"></i> azihad783@gmail.com
+                        </a>
+                    </div>
+                </div>
+
+                <!-- RIGHT PHOTO COLUMN -->
+                <div class="hero-right">
+                    <div class="hero-photo-ring">
+                        <div class="hero-photo-inner">
+                            <img src="formalPic_white_bg.jpeg" alt="Md. Abu Zihad — CS Engineer" class="hero-photo" width="340" height="340" fetchpriority="high" decoding="async" />
+                        </div>
+                    </div>
+
+                    <!-- INFO CARD -->
+                    <div class="hero-info-card">
+                        <div class="info-row">
+                            <div class="info-icon-wrap info-blue">🎓</div>
+                            <div>
+                                <p class="info-main">B.Sc. CSE · Bangladesh Univ. of Professionals</p>
+                                <p class="info-sub">2023 – Present</p>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-icon-wrap info-purple">💼</div>
+                            <div>
+                                <p class="info-main">Project Management Trainee · PM Heaven</p>
+                                <p class="info-sub">Strategy · Research · Web · Cyber Security</p>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-icon-wrap info-teal">📍</div>
+                            <div>
+                                <p class="info-main">Dhaka, Bangladesh</p>
+                                <p class="info-sub">azihad783@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ICPC ACHIEVEMENT BADGE -->
+                    <div class="hero-achievement">
+                        <span class="achievement-icon">🏆</span>
+                        <div>
+                            <p class="achievement-title">ICPC 2025 Dhaka Regional Finalist</p>
+                            <p class="achievement-sub">International Collegiate Programming Contest</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <h1 id="hero-heading" class="hero-heading">
-              Hi, I'm <span class="text-gradient">Abu Zihad</span>
-            </h1>
-            <p class="hero-role">Computer Science Engineer</p>
-            <p class="hero-subtext">
-              CS student at Bangladesh University of Professionals with 3.85/4.00 CGPA. 
-              I build efficient, scalable software — from algorithm-optimized desktop apps 
-              to full-stack systems with secure database integration.
-            </p>
-            <div class="hero-stats">
-              <div class="stat">
-                <span class="stat-value">3.85</span>
-                <span class="stat-label">CGPA / 4.00</span>
-              </div>
-              <div class="stat-divider"></div>
-              <div class="stat">
-                <span class="stat-value">3+</span>
-                <span class="stat-label">Projects Built</span>
-              </div>
-              <div class="stat-divider"></div>
-              <div class="stat">
-                <span class="stat-value">5.00</span>
-                <span class="stat-label">HSC GPA / 5.00</span>
-              </div>
-            </div>
-            <div class="hero-buttons">
-              <a href="#projects" class="btn btn-primary">
-                <i class="fas fa-code"></i> View Projects
-              </a>
-              <a href="resume.pdf" target="_blank" class="btn btn-outline">
-                <i class="fas fa-download"></i> Download CV
-              </a>
-            </div>
-          </div>
-          <div class="hero-image-wrapper">
-            <div class="hero-image-ring">
-              <img src="formalPic_white_bg.jpeg" alt="Md. Abu Zihad — CS Engineer" class="hero-photo" />
-            </div>
-            <div class="hero-image-glow"></div>
-          </div>
         </div>
-        <div class="scroll-indicator">
-          <span class="scroll-text">Scroll to explore</span>
-          <div class="scroll-line"></div>
-        </div>
-      </div>
     </section>
 
     <section id="skills" class="skills" aria-labelledby="skills-heading">
@@ -99,7 +185,7 @@
             <h2 id="skills-heading" class="section-heading">
                 Technical <span class="text-gradient">Expertise</span>
             </h2>
-            
+
             <div class="skills-grid">
                 <div class="skill-category">
                     <div class="category-header">
@@ -108,14 +194,13 @@
                     </div>
                     <div class="skill-tags">
                         <span class="skill-tag">Java</span>
-                        <span class="skill-tag">C</span>
-                        <span class="skill-tag">C++</span>
-                        <span class="skill-tag">Assembly</span>
-                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">C / C++</span>
                         <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Assembly</span>
                     </div>
                 </div>
-                
+
                 <div class="skill-category">
                     <div class="category-header">
                         <i class="fas fa-tools category-icon"></i>
@@ -123,41 +208,43 @@
                     </div>
                     <div class="skill-tags">
                         <span class="skill-tag">MySQL</span>
-                        <span class="skill-tag">Git</span>
-                        <span class="skill-tag">GitHub</span>
+                        <span class="skill-tag">Supabase</span>
+                        <span class="skill-tag">Git / GitHub</span>
                         <span class="skill-tag">Linux</span>
-                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Hostinger</span>
                         <span class="skill-tag">AWS</span>
-                    </div>
-                </div>
-                
-                <div class="skill-category">
-                    <div class="category-header">
-                        <i class="fas fa-brain category-icon"></i>
-                        <h3>Core Concepts</h3>
-                    </div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Data Structures</span>
-                        <span class="skill-tag">Algorithms</span>
-                        <span class="skill-tag">OOP</span>
-                        <span class="skill-tag">System Design</span>
-                        <span class="skill-tag">Database Design</span>
-                        <span class="skill-tag">Problem Solving</span>
+                        <span class="skill-tag">Docker</span>
                     </div>
                 </div>
 
                 <div class="skill-category">
-                  <div class="category-header">
-                    <i class="fas fa-layer-group category-icon"></i>
-                    <h3>Web & Frameworks</h3>
-                  </div>
-                  <div class="skill-tags">
-                    <span class="skill-tag">HTML</span>
-                    <span class="skill-tag">CSS</span>
-                    <span class="skill-tag">JavaScript</span>
-                    <span class="skill-tag">Node.js</span>
-                    <span class="skill-tag">REST APIs</span>
-                  </div>
+                    <div class="category-header">
+                        <i class="fas fa-tasks category-icon"></i>
+                        <h3>Management & Collaboration</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Jira</span>
+                        <span class="skill-tag">ClickUp</span>
+                        <span class="skill-tag">HubSpot</span>
+                        <span class="skill-tag">Slack</span>
+                        <span class="skill-tag">Discord</span>
+                        <span class="skill-tag">Google Workspace</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="category-header">
+                        <i class="fas fa-brain category-icon"></i>
+                        <h3>Core & Soft Skills</h3>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Data Structures</span>
+                        <span class="skill-tag">Algorithms</span>
+                        <span class="skill-tag">System Design</span>
+                        <span class="skill-tag">Team Leadership</span>
+                        <span class="skill-tag">Lead Generation</span>
+                        <span class="skill-tag">Product Strategy</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -168,8 +255,91 @@
             <h2 id="projects-heading" class="section-heading">
                 Featured <span class="text-gradient">Projects</span>
             </h2>
-            
+
             <div class="projects-grid">
+                <article class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">PetDunia</h3>
+                        <div class="project-tech">
+                            <span class="tech-tag">Play Store</span>
+                            <span class="tech-tag">Optimization</span>
+                        </div>
+                    </div>
+
+                    <p class="project-description">
+                        Collaborating on app optimization and product strategy via MoSCoW and SWAT analysis. Working closely with developers to enhance performance and user experience.
+                    </p>
+
+                    <div class="project-links">
+                        <a href="https://play.google.com/store/apps/details?id=com.petdunia.androidapp" class="project-link"
+                            target="_blank" rel="noopener" aria-label="View PetDunia on Play Store">
+                            <i class="fab fa-google-play"></i> Play Store
+                        </a>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Homify-WebApp</h3>
+                        <div class="project-tech">
+                            <span class="tech-tag">Java</span>
+                            <span class="tech-tag">MySQL</span>
+                        </div>
+                    </div>
+
+                    <p class="project-description">
+                        A centralized house management platform utilizing Java and MySQL for efficient data handling, user management, and optimized resource tracking.
+                    </p>
+
+                    <div class="project-links">
+                        <a href="https://github.com/AZtheE1/Homify-WebApp" class="project-link"
+                            target="_blank" rel="noopener" aria-label="View Homify on GitHub">
+                            <i class="fab fa-github"></i> Source Code
+                        </a>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Routly</h3>
+                        <div class="project-tech">
+                            <span class="tech-tag">Full-Stack</span>
+                            <span class="tech-tag">Private</span>
+                        </div>
+                    </div>
+
+                    <p class="project-description">
+                        A robust, professional full-stack application designed for efficient scheduling and management. Focus on secure backend architecture and high-performance frontend.
+                    </p>
+
+                    <div class="project-links">
+                        <a href="https://github.com/AZtheE1/Routly" class="project-link"
+                            target="_blank" rel="noopener" aria-label="View Routly Repository">
+                            <i class="fab fa-github"></i> View Repo
+                        </a>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Campus-Whisper</h3>
+                        <div class="project-tech">
+                            <span class="tech-tag">Google AI</span>
+                            <span class="tech-tag">WIP</span>
+                        </div>
+                    </div>
+
+                    <p class="project-description">
+                        A modern connectivity platform for students features AI-driven interactions. Currently in active development using Google AI Studio.
+                    </p>
+
+                    <div class="project-links">
+                        <span class="project-link disabled" style="opacity: 0.6; cursor: not-allowed;">
+                            <i class="fas fa-spinner fa-spin"></i> In Progress
+                        </span>
+                    </div>
+                </article>
+
                 <article class="project-card">
                     <div class="project-header">
                         <h3 class="project-title">E-Voting System</h3>
@@ -178,57 +348,14 @@
                             <span class="tech-tag">MySQL</span>
                         </div>
                     </div>
-                    
+
                     <p class="project-description">
-                        Developed a secure electronic voting desktop application to modernize 
-                        traditional balloting processes with MySQL integration for data integrity.
+                        Developed a secure electronic voting desktop application to modernize traditional balloting processes with MySQL integration for data integrity.
                     </p>
-                    
+
                     <div class="project-links">
-                        <a href="https://github.com/AZtheE1" class="project-link" aria-label="View source code on GitHub">
-                            <i class="fab fa-github"></i> Source Code
-                        </a>
-                        </div>
-                </article>
-                
-                <article class="project-card">
-                    <div class="project-header">
-                        <h3 class="project-title">Home Finder App</h3>
-                        <div class="project-tech">
-                            <span class="tech-tag">Java</span>
-                            <span class="tech-tag">DSA</span>
-                            <span class="tech-tag">MySQL</span>
-                        </div>
-                    </div>
-                    
-                    <p class="project-description">
-                        Implemented Dijkstra's Algorithm for shortest paths and 0/1 Knapsack 
-                        Algorithm to optimize property selection within budget constraints.
-                    </p>
-                    
-                    <div class="project-links">
-                        <a href="https://github.com/AZtheE1" class="project-link" aria-label="View source code on GitHub">
-                            <i class="fab fa-github"></i> Source Code
-                        </a>
-                    </div>
-                </article>
-                
-                <article class="project-card">
-                    <div class="project-header">
-                        <h3 class="project-title">Cost Management System</h3>
-                        <div class="project-tech">
-                            <span class="tech-tag">C++</span>
-                            <span class="tech-tag">OOP</span>
-                        </div>
-                    </div>
-                    
-                    <p class="project-description">
-                        Built financial tracking tool using OOP principles for modular architecture, 
-                        helping users monitor expenses and manage budgets effectively.
-                    </p>
-                    
-                    <div class="project-links">
-                        <a href="https://github.com/AZtheE1" class="project-link" aria-label="View source code on GitHub">
+                        <a href="https://github.com/AZtheE1" class="project-link" target="_blank" rel="noopener"
+                            aria-label="View source code on GitHub">
                             <i class="fab fa-github"></i> Source Code
                         </a>
                     </div>
@@ -242,8 +369,28 @@
             <h2 id="experience-heading" class="section-heading">
                 Education & <span class="text-gradient">Experience</span>
             </h2>
-            
+
             <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <span class="timeline-date">2024 – Present</span>
+                            <h3 class="timeline-title">Project Management Trainee</h3>
+                            <p class="timeline-subtitle">PM Heaven</p>
+                        </div>
+                        <p class="timeline-desc" style="margin-bottom: 1rem; font-size: 0.95rem; color: var(--color-text-secondary);">
+                            In an era where AI can generate code, I focus on building high-quality, sustainable products through strategy and technical precision.
+                        </p>
+                        <ul class="timeline-list">
+                            <li>Leading <strong>MoSCoW & SWAT analysis</strong> for app optimization projects like PetDunia.</li>
+                            <li>Authoring comprehensive <strong>Software Requirement Specifications (SRS)</strong> and system documentation.</li>
+                            <li>Conducting market research and competitive analysis to drive product direction.</li>
+                            <li>Bridging communication between technical developers and business stakeholders.</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
                     <div class="timeline-content">
@@ -253,13 +400,13 @@
                             <p class="timeline-subtitle">Bangladesh University of Professionals</p>
                         </div>
                         <ul class="timeline-list">
-                            <li>Maintained 3.85/4.00 CGPA while leading multiple academic projects</li>
+                            <li>Maintained 3.88/4.00 CGPA while leading multiple academic projects</li>
                             <li>Implemented optimized algorithms achieving 40% faster query processing</li>
                             <li>Developed 3+ full-stack applications with secure database integration</li>
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
                     <div class="timeline-content">
@@ -275,7 +422,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="timeline-item">
                     <div class="timeline-marker"></div>
                     <div class="timeline-content">
@@ -300,26 +447,28 @@
             <h2 id="contact-heading" class="section-heading">
                 Let's <span class="text-gradient">Connect</span>
             </h2>
-            
+
             <p class="contact-subtext">
-                Interested in collaborating or discussing engineering opportunities? 
+                Interested in collaborating or discussing engineering opportunities?
                 Feel free to reach out through any platform below.
             </p>
-            
+
             <div class="contact-links">
                 <a href="mailto:azihad783@gmail.com" class="contact-card" aria-label="Send email">
-                  <i class="fas fa-envelope contact-icon"></i>
-                  <h3>Email</h3>
-                  <p>azihad783@gmail.com</p>
+                    <i class="fas fa-envelope contact-icon"></i>
+                    <h3>Email</h3>
+                    <p>azihad783@gmail.com</p>
                 </a>
-                
-                <a href="https://github.com/AZtheE1" class="contact-card" aria-label="Visit GitHub profile" target="_blank" rel="noopener">
+
+                <a href="https://github.com/AZtheE1" class="contact-card" aria-label="Visit GitHub profile"
+                    target="_blank" rel="noopener">
                     <i class="fab fa-github contact-icon"></i>
                     <h3>GitHub</h3>
                     <p>@AZtheE1</p>
                 </a>
-                
-                <a href="https://www.linkedin.com/in/md-abu-zihad-27908a311/" class="contact-card" aria-label="Visit LinkedIn profile" target="_blank" rel="noopener">
+
+                <a href="https://www.linkedin.com/in/md-abu-zihad-27908a311/" class="contact-card"
+                    aria-label="Visit LinkedIn profile" target="_blank" rel="noopener">
                     <i class="fab fa-linkedin contact-icon"></i>
                     <h3>LinkedIn</h3>
                     <p>Md. Abu Zihad</p>
@@ -335,16 +484,17 @@
                     <span class="logo-icon">⚡</span>
                     <a href="#home" class="brand-name">Md. Abu Zihad</a>
                 </div>
-                
+
                 <p class="footer-text">
                     Building the future, one line of code at a time.
                 </p>
-                
+
                 <div class="footer-social">
                     <a href="https://github.com/AZtheE1" aria-label="GitHub" target="_blank" rel="noopener">
                         <i class="fab fa-github"></i>
                     </a>
-                    <a href="https://www.linkedin.com/in/md-abu-zihad-27908a311/" aria-label="LinkedIn" target="_blank" rel="noopener">
+                    <a href="https://www.linkedin.com/in/md-abu-zihad-27908a311/" aria-label="LinkedIn" target="_blank"
+                        rel="noopener">
                         <i class="fab fa-linkedin"></i>
                     </a>
                     <a href="mailto:azihad783@gmail.com" aria-label="Email">
@@ -352,7 +502,7 @@
                     </a>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>&copy; <span id="current-year">2026</span> Md. Abu Zihad. All rights reserved.</p>
                 <p>Dhaka, Bangladesh</p>
@@ -361,11 +511,12 @@
     </footer>
 
     <div class="bg-shapes" aria-hidden="true">
-      <div class="shape shape-1"></div>
-      <div class="shape shape-2"></div>
-      <div class="shape shape-3"></div>
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
     </div>
 
     <script src="script.js"></script>
 </body>
+
 </html>

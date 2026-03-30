@@ -63,24 +63,65 @@ function updateActiveNavLink() {
 }
 
 /**
- * Toggle mobile navigation menu
+ * Toggle mobile navigation menu with focus management
  */
 function toggleMobileMenu() {
     const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-    menuToggle.setAttribute('aria-expanded', !isExpanded);
+    const nextState = !isExpanded;
+    
+    menuToggle.setAttribute('aria-expanded', nextState);
     navLinksContainer.classList.toggle('active');
     
     // Prevent body scroll when menu is open
-    document.body.style.overflow = isExpanded ? '' : 'hidden';
+    document.body.style.overflow = nextState ? 'hidden' : '';
+
+    if (nextState) {
+        // Move focus to first nav link when opening
+        const firstLink = navLinksContainer.querySelector('.nav-link');
+        if (firstLink) {
+            setTimeout(() => firstLink.focus(), 300); // Wait for transition
+        }
+    } else {
+        // Return focus to toggle button when closing
+        menuToggle.focus();
+    }
 }
 
 /**
- * Close mobile menu when clicking a link
+ * Close mobile menu and return focus
  */
 function closeMobileMenu() {
+    if (menuToggle.getAttribute('aria-expanded') === 'false') return;
+    
     menuToggle.setAttribute('aria-expanded', 'false');
     navLinksContainer.classList.remove('active');
     document.body.style.overflow = '';
+    menuToggle.focus();
+}
+
+/**
+ * Focus trap within mobile menu
+ */
+function handleMenuFocusTrap(e) {
+    if (window.innerWidth > 768 || menuToggle.getAttribute('aria-expanded') !== 'true') return;
+
+    const focusableElements = [menuToggle, ...navLinksContainer.querySelectorAll('a')];
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (e.key === 'Tab') {
+        if (e.shiftKey) { // Shift + Tab
+            if (document.activeElement === firstElement) {
+                e.preventDefault();
+                lastElement.focus();
+            }
+        } else { // Tab
+            if (document.activeElement === lastElement) {
+                e.preventDefault();
+                firstElement.focus();
+            }
+        }
+    }
 }
 
 // ========== ANIMATION FUNCTIONS ==========
@@ -175,10 +216,14 @@ function initEventListeners() {
         }
     });
     
-    // Close mobile menu on ESC key
+    // Close mobile menu on ESC key and handle focus trap
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && navLinksContainer.classList.contains('active')) {
             closeMobileMenu();
+        }
+        
+        if (e.key === 'Tab') {
+            handleMenuFocusTrap(e);
         }
     });
     
