@@ -175,10 +175,32 @@ function initEventListeners() {
         }
     });
     
-    // Close mobile menu on ESC key
+    // Close mobile menu on ESC key and handle focus trap
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && navLinksContainer.classList.contains('active')) {
-            closeMobileMenu();
+        if (navLinksContainer.classList.contains('active')) {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+                menuToggle.focus();
+            }
+            
+            // Focus Trap
+            if (e.key === 'Tab') {
+                const focusableEls = navLinksContainer.querySelectorAll('a');
+                const firstFocusable = focusableEls[0];
+                const lastFocusable = focusableEls[focusableEls.length - 1];
+
+                if (e.shiftKey) { // Shift + Tab
+                    if (document.activeElement === firstFocusable || document.activeElement === menuToggle) {
+                        lastFocusable.focus();
+                        e.preventDefault();
+                    }
+                } else { // Tab
+                    if (document.activeElement === lastFocusable) {
+                        firstFocusable.focus();
+                        e.preventDefault();
+                    }
+                }
+            }
         }
     });
     
