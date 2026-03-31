@@ -1177,3 +1177,49 @@ h1, h2, h3, h4, h5, h6 {
         flex-direction: column;
     }
 }
+
+/* WIP project card */
+.project-card--wip {
+    border-color: rgba(245, 158, 11, 0.2);
+    background: linear-gradient(135deg, var(--color-surface), rgba(245,158,11,0.03));
+}
+
+.project-card--wip:hover {
+    border-color: rgba(245, 158, 11, 0.4);
+    box-shadow: 0 20px 40px rgba(245,158,11,0.08);
+}
+
+.project-wip-badge {
+    display: inline-block;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    color: #f59e0b;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    vertical-align: middle;
+    margin-left: 8px;
+}
+
+.project-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-sm);
+    color: #f59e0b;
+    opacity: 0.8;
+    padding: var(--spacing-xs) var(--spacing-md);
+}
+
+.project-status-pill i {
+    font-size: 0.7rem;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
