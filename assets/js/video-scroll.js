@@ -1,3 +1,5 @@
+import { calculateScrollProgress } from './utils.js';
+
 export function initVideoScroll() {
   const video = document.getElementById('hero-video');
   const hero = document.getElementById('home');
@@ -5,7 +7,7 @@ export function initVideoScroll() {
 
   const showVideo = () => {
     video.pause();
-    gsap.to(video, { opacity: 1, duration: 0.6 });
+    gsap.fromTo(video, { opacity: 0 }, { opacity: 1, duration: 1, delay: 0.2 });
   };
 
   if (video.readyState >= 3) {
@@ -26,7 +28,7 @@ export function initVideoScroll() {
 
   let rafId;
   const loop = () => {
-    const scrollProgress = Math.max(0, Math.min(1, window.scrollY / hero.offsetHeight));
+    const scrollProgress = calculateScrollProgress(window.scrollY, hero.offsetHeight);
     if (video.duration) {
       const newTime = scrollProgress * video.duration;
       if (Math.abs(newTime - video.currentTime) > 0.04) {
@@ -35,17 +37,16 @@ export function initVideoScroll() {
     }
     rafId = requestAnimationFrame(loop);
   };
+  rafId = requestAnimationFrame(loop);
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        rafId = requestAnimationFrame(loop);
-      } else {
-        cancelAnimationFrame(rafId);
-        video.pause();
-      }
-    });
+  gsap.to('#hero-video', {
+    opacity: 0,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#home',
+      start: 'bottom 60%',
+      end: 'bottom top',
+      scrub: true,
+    }
   });
-
-  observer.observe(hero);
 }

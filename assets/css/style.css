@@ -31,8 +31,11 @@ html {
   scroll-behavior: smooth;
 }
 
+html, body {
+  background-color: #000;
+}
+
 body {
-  background: var(--bg);
   color: var(--text);
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
@@ -201,7 +204,7 @@ nav a:focus-visible::after {
 
 #home {
   position: relative;
-  height: 100svh;
+  height: 100vh;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -209,13 +212,14 @@ nav a:focus-visible::after {
 }
 
 #hero-video {
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 0;
+  z-index: -1;
   opacity: 0;
+  pointer-events: none;
 }
 
 #home.video-failed {
@@ -577,6 +581,8 @@ p.section-subtitle {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   gap: 1.25rem;
+  perspective: 1000px;
+  transform-style: preserve-3d;
 }
 
 .skill-card {
@@ -624,6 +630,11 @@ p.section-subtitle {
 .dot.filled { background: var(--blue); }
 .dot.empty { background: var(--border); }
 
+.featured-project-wrapper {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
 .featured-project {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -635,6 +646,7 @@ p.section-subtitle {
   margin-bottom: 2rem;
   position: relative;
   overflow: hidden;
+  transform-style: preserve-3d;
 }
 
 .featured-project::before {
@@ -671,6 +683,8 @@ p.section-subtitle {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.25rem;
+  perspective: 1000px;
+  transform-style: preserve-3d;
 }
 
 .project-card {
@@ -1083,4 +1097,21 @@ footer {
 .btn-scroll-top:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 25px rgba(59, 130, 246, 0.4);
+}
+
+#skills, #projects, #experience, #contact {
+  background: rgba(8, 8, 16, 0.90);
+  position: relative;
+  z-index: 1;
+}
+
+#skills::before, #projects::before, #experience::before, #contact::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 100%;
+  background: inherit;
+  z-index: -1;
 }

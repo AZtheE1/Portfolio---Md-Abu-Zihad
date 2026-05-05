@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
       duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smooth: true,
-      smoothTouch: false
+      smoothTouch: false,
+      autoRaf: false,
     });
   } catch (e) {
     console.error('Lenis initialization failed:', e);
@@ -18,6 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initCursor();
   initVideoScroll();
   initScrollAnimations(lenis);
+
+  const profileImg = document.getElementById('profile-img');
+  if (profileImg) {
+    profileImg.addEventListener('error', () => {
+      profileImg.style.display = 'none';
+    });
+  }
 
   // Active nav links
   const sections = document.querySelectorAll('section, #home');
@@ -41,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Hamburger menu
   const hamburger = document.querySelector('.hamburger');
   const navUl = document.querySelector('nav ul');
-  const navLinksAll = document.querySelectorAll('nav a');
 
   if (hamburger && navUl) {
     hamburger.addEventListener('click', () => {
@@ -50,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.style.overflow = hamburger.classList.contains('open') ? 'hidden' : '';
     });
 
-    navLinksAll.forEach(link => {
+    navLinks.forEach(link => {
       link.addEventListener('click', () => {
         hamburger.classList.remove('open');
         navUl.classList.remove('open');
@@ -85,16 +92,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const messageDiv = form.querySelector('.form-message');
       
       const formData = new FormData(form);
-      const name = formData.get('name');
-      const subject = formData.get('subject');
-      const message = formData.get('message');
+      const name = formData.get('name') || '';
+      const subject = formData.get('subject') || '';
+      const message = formData.get('message') || '';
       
       btn.textContent = 'Opening Mail...';
       btn.disabled = true;
 
       // Real mailto functionality
       setTimeout(() => {
-        const mailtoLink = `mailto:azihad783@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Name: " + name + "\n\n" + message)}`;
+        const mailtoLink = `mailto:azihad783@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent('Name: ' + name + '\n\n' + message)}`;
         window.location.href = mailtoLink;
         
         messageDiv.textContent = 'Mail client opened!';

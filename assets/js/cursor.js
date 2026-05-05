@@ -34,10 +34,10 @@ export function initCursor() {
       const centerY = rect.top + rect.height / 2;
       const pullX = (mouseX - centerX) * 0.2;
       const pullY = (mouseY - centerY) * 0.2;
-      gsap.to(el, { x: pullX, y: pullY, duration: 0.3 });
-    });
+      gsap.to(el, { x: pullX, y: pullY, duration: 0.3, });
+    }, { passive: true });
     el.addEventListener('mouseleave', () => {
-      gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'power2.out' });
+      gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'power2.out', });
     });
   });
 
@@ -45,11 +45,11 @@ export function initCursor() {
   hoverElements.forEach(el => {
     el.addEventListener('mouseenter', () => {
       ring.classList.add('hovering');
-      gsap.to(dot, { scale: 0, duration: 0.2 });
+      gsap.to(dot, { scale: 0, duration: 0.2, });
     });
     el.addEventListener('mouseleave', () => {
       ring.classList.remove('hovering');
-      gsap.to(dot, { scale: 1, duration: 0.2 });
+      gsap.to(dot, { scale: 1, duration: 0.2, });
     });
   });
 
@@ -63,9 +63,9 @@ export function initCursor() {
   });
 
   window.addEventListener('mousedown', () => {
-    gsap.to(dot, { scale: 0.5, duration: 0.1 });
+    gsap.to(dot, { scale: 0.5, duration: 0.1, });
   });
   window.addEventListener('mouseup', () => {
-    gsap.to(dot, { scale: 1, duration: 0.1 });
+    gsap.to(dot, { scale: 1, duration: 0.1, });
   });
 }

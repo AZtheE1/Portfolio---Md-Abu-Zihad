@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
 
     <link rel="preload" as="video" href="assets/hero-bg.mp4">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -27,9 +27,14 @@
 </head>
 
 <body>
+    <video id="hero-video" autoplay muted loop playsinline poster="assets/hero-poster.png" aria-hidden="true">
+        <source src="assets/hero-bg.mp4" type="video/mp4">
+    </video>
     <noscript>
-        <div style="background: #e34f26; color: white; text-align: center; padding: 1rem; position: relative; z-index: 10000;">
-            This portfolio relies on JavaScript for animations and smooth scrolling. Please enable JavaScript for the best experience.
+        <div
+            style="background: #e34f26; color: white; text-align: center; padding: 1rem; position: relative; z-index: 10000;">
+            This portfolio relies on JavaScript for animations and smooth scrolling. Please enable JavaScript for the
+            best experience.
         </div>
     </noscript>
     <div id="scroll-progress"></div>
@@ -62,9 +67,6 @@
 
     <main>
         <section id="home">
-            <video id="hero-video" autoplay muted loop playsinline poster="assets/hero-poster.png" aria-hidden="true">
-                <source src="assets/hero-bg.mp4" type="video/mp4">
-            </video>
             <div class="hero-overlay"></div>
 
             <div class="hero-content">
@@ -118,7 +120,7 @@
 
                 <div class="hero-visual">
                     <div class="profile-ring">
-                        <img src="assets/formalPic_white_bg.png" alt="Md Abu Zihad" onerror="this.style.display='none'">
+                        <img src="assets/formalPic_white_bg.png" alt="Md Abu Zihad" id="profile-img">
                     </div>
                     <div class="info-cards">
                         <div class="info-card">
@@ -258,29 +260,32 @@
                     intuitive UI.</p>
             </div>
 
-            <div class="featured-project" data-tilt>
-                <div class="project-badge">Featured</div>
-                <div class="project-info">
-                    <h3 style="font-size: var(--text-xl); margin-bottom: 0.5rem;">Routly</h3>
-                    <p style="color: var(--text-muted); line-height: 1.6;">A full-stack student management platform to
-                        centralize schedules, notices, and academic information, including an automated system that
-                        converts announcements into structured real-time updates.</p>
-                    <div class="tech-pills" style="margin-top: 1rem; margin-bottom: 1.5rem;">
-                        <span class="pill">Next.js 15</span>
-                        <span class="pill">NestJS</span>
-                        <span class="pill">Supabase</span>
-                        <span class="pill">Framer Motion</span>
+            <div class="featured-project-wrapper">
+                <div class="featured-project" data-tilt>
+                    <div class="project-badge">Featured</div>
+                    <div class="project-info">
+                        <h3 style="font-size: var(--text-xl); margin-bottom: 0.5rem;">Routly</h3>
+                        <p style="color: var(--text-muted); line-height: 1.6;">A full-stack student management platform
+                            to
+                            centralize schedules, notices, and academic information, including an automated system that
+                            converts announcements into structured real-time updates.</p>
+                        <div class="tech-pills" style="margin-top: 1rem; margin-bottom: 1.5rem;">
+                            <span class="pill">Next.js 15</span>
+                            <span class="pill">NestJS</span>
+                            <span class="pill">Supabase</span>
+                            <span class="pill">Framer Motion</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://routly-rosy.vercel.app" target="_blank" rel="noopener noreferrer"
+                                data-magnetic><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                                Live Demo</a>
+                        </div>
                     </div>
-                    <div class="project-links">
-                        <a href="https://routly-rosy.vercel.app" target="_blank" rel="noopener noreferrer" data-magnetic><i
-                                class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
-                            Live Demo</a>
+                    <div class="project-preview"
+                        style="background: rgba(255,255,255,0.05); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; min-height: 200px;">
+                        <i class="fa-solid fa-calendar-check"
+                            style="font-size: 4rem; color: var(--blue); opacity: 0.5;"></i>
                     </div>
-                </div>
-                <div class="project-preview"
-                    style="background: rgba(255,255,255,0.05); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; min-height: 200px;">
-                    <i class="fa-solid fa-calendar-check"
-                        style="font-size: 4rem; color: var(--blue); opacity: 0.5;"></i>
                 </div>
             </div>
 
@@ -295,7 +300,8 @@
                         <span class="pill">Play Store</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" data-magnetic><i class="fa-brands fa-google-play" aria-hidden="true"></i> View App</a>
+                        <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer"
+                            data-magnetic><i class="fa-brands fa-google-play" aria-hidden="true"></i> View App</a>
                     </div>
                 </div>
                 <div class="project-card" data-tilt>
@@ -308,8 +314,8 @@
                         <span class="pill">MySQL</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://github.com/AZtheE1/Homify-WebApp" target="_blank" rel="noopener noreferrer" data-magnetic><i
-                                class="fa-brands fa-github" aria-hidden="true"></i> Source Code</a>
+                        <a href="https://github.com/AZtheE1/Homify-WebApp" target="_blank" rel="noopener noreferrer"
+                            data-magnetic><i class="fa-brands fa-github" aria-hidden="true"></i> Source Code</a>
                     </div>
                 </div>
                 <div class="project-card" data-tilt>
@@ -322,8 +328,8 @@
                         <span class="pill">MySQL</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://github.com/AZtheE1/E-Voting" target="_blank" rel="noopener noreferrer" data-magnetic><i
-                                class="fa-brands fa-github" aria-hidden="true"></i> Source Code</a>
+                        <a href="https://github.com/AZtheE1/E-Voting" target="_blank" rel="noopener noreferrer"
+                            data-magnetic><i class="fa-brands fa-github" aria-hidden="true"></i> Source Code</a>
                     </div>
                 </div>
                 <div class="project-card" data-tilt>
@@ -336,8 +342,9 @@
                         <span class="pill">Node.js</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://github.com/AZtheE1/Personal-Brain-App" target="_blank" rel="noopener noreferrer" data-magnetic><i
-                                class="fa-brands fa-github" aria-hidden="true"></i> Source Code</a>
+                        <a href="https://github.com/AZtheE1/Personal-Brain-App" target="_blank"
+                            rel="noopener noreferrer" data-magnetic><i class="fa-brands fa-github"
+                                aria-hidden="true"></i> Source Code</a>
                     </div>
                 </div>
             </div>
@@ -409,12 +416,15 @@
                     </p>
 
                     <div class="social-links">
-                        <a href="https://github.com/AZtheE1" target="_blank" class="social-link" data-magnetic aria-label="GitHub Profile"><i
-                                class="fa-brands fa-github" aria-hidden="true"></i> github.com/AZtheE1</a>
+                        <a href="https://github.com/AZtheE1" target="_blank" class="social-link" data-magnetic
+                            aria-label="GitHub Profile"><i class="fa-brands fa-github" aria-hidden="true"></i>
+                            github.com/AZtheE1</a>
                         <a href="https://linkedin.com/in/md-abu-zihad-27908a311" target="_blank" class="social-link"
-                            data-magnetic aria-label="LinkedIn Profile"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+                            data-magnetic aria-label="LinkedIn Profile"><i class="fa-brands fa-linkedin-in"
+                                aria-hidden="true"></i>
                             linkedin.com/in/md-abu-zihad-27908a311</a>
-                        <a href="tel:+8801913871854" class="social-link" data-magnetic aria-label="Call Me"><i class="fa-solid fa-phone" aria-hidden="true"></i>
+                        <a href="tel:+8801913871854" class="social-link" data-magnetic aria-label="Call Me"><i
+                                class="fa-solid fa-phone" aria-hidden="true"></i>
                             01913871854</a>
                         <a href="mailto:azihad783@gmail.com" class="social-link" data-magnetic aria-label="Email Me"><i
                                 class="fa-solid fa-envelope" aria-hidden="true"></i> azihad783@gmail.com</a>
@@ -434,9 +444,9 @@
                     </form>
                 </div>
             </div>
-        <button id="scroll-top" class="btn-scroll-top" aria-label="Scroll to top" data-magnetic>
-            <i class="fa-solid fa-arrow-up"></i>
-        </button>
+            <button id="scroll-top" class="btn-scroll-top" aria-label="Scroll to top" data-magnetic>
+                <i class="fa-solid fa-arrow-up"></i>
+            </button>
     </main>
 
     <footer>
@@ -454,9 +464,9 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/lenis@1.0.42/dist/lenis.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js" integrity="sha384-iiCtod6ZId6zT42Bar9EFXNKZh8X4VliWYWFOuY3/t1AxCvLejXExXcbluoc57CJ" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha384-d+vyQ0dYcymoP8ndq2hW7FGC50nqGdXUEgoOUGxbbkAJwZqL7h+jKN0GGgn9hFDS" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" integrity="sha384-poC0r6usQOX2Ayt/VGA+t81H6V3iN9L+Irz9iO8o+s0X20tLpzc9DOOtnKxhaQSE" crossorigin="anonymous"></script>
     <script type="module" src="assets/js/video-scroll.js" defer></script>
     <script type="module" src="assets/js/scroll-animations.js" defer></script>
     <script type="module" src="assets/js/cursor.js" defer></script>

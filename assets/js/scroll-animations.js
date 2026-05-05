@@ -1,3 +1,5 @@
+import { calculateScrollProgress } from './utils.js';
+
 export function initScrollAnimations(lenis) {
   gsap.registerPlugin(window.ScrollTrigger);
 
@@ -11,26 +13,27 @@ export function initScrollAnimations(lenis) {
     gsap.globalTimeline.timeScale(100);
   }
 
-  window.ScrollTrigger.create({
-    start: 'top top',
-    end: 'bottom bottom',
-    onUpdate: (self) => {
-      const progressEl = document.getElementById('scroll-progress');
-      if (progressEl) progressEl.style.width = (self.progress * 100) + '%';
+  window.addEventListener('scroll', () => {
+    const progressEl = document.getElementById('scroll-progress');
+    if (progressEl) {
+      const progress = calculateScrollProgress(window.scrollY, document.documentElement.scrollHeight - window.innerHeight);
+      progressEl.style.width = (progress * 100) + '%';
     }
-  });
+  }, { passive: true });
 
   // Hero Entrance
-  const heroTl = gsap.timeline({ delay: 0.5 });
-  heroTl.from('.available-badge', { opacity: 0, y: 20, duration: 0.6 })
-        .from('.hero-name', { opacity: 0, y: 30, duration: 0.6 }, "-=0.3")
-        .from('.hero-role', { opacity: 0, y: 20, duration: 0.5 }, "-=0.3")
-        .from('.hero-bio', { opacity: 0, y: 15, duration: 0.5 }, "-=0.3")
-        .from('.stats-row .stat', { opacity: 0, x: -20, stagger: 0.1, duration: 0.5 }, "-=0.2")
-        .from('.tech-pills .pill', { opacity: 0, scale: 0.8, stagger: 0.05, duration: 0.4 }, "-=0.2")
-        .from('.hero-cta a, .hero-cta button', { opacity: 0, y: 20, scale: 0.95, stagger: 0.1, duration: 0.5 }, "-=0.2")
-        .from('.profile-ring', { opacity: 0, scale: 0.9, duration: 0.8 }, "-=1")
-        .from('.info-card', { opacity: 0, x: 20, stagger: 0.12, duration: 0.5 }, "-=0.6");
+  gsap.delayedCall(0.15, () => {
+    const heroTl = gsap.timeline({ delay: 0.5 });
+    heroTl.from('.available-badge', { opacity: 0, y: 20, duration: 0.6 })
+          .from('.hero-name', { opacity: 0, y: 30, duration: 0.6 }, "-=0.3")
+          .from('.hero-role', { opacity: 0, y: 20, duration: 0.5 }, "-=0.3")
+          .from('.hero-bio', { opacity: 0, y: 15, duration: 0.5 }, "-=0.3")
+          .from('.stats-row .stat', { opacity: 0, x: -20, stagger: 0.1, duration: 0.5 }, "-=0.2")
+          .from('.tech-pills .pill', { opacity: 0, scale: 0.8, stagger: 0.05, duration: 0.4 }, "-=0.2")
+          .from('.hero-cta a, .hero-cta button', { opacity: 0, y: 20, scale: 0.95, stagger: 0.1, duration: 0.5 }, "-=0.2")
+          .from('.profile-ring', { opacity: 0, scale: 0.9, duration: 0.8 }, "-=1")
+          .from('.info-card', { opacity: 0, x: 20, stagger: 0.12, duration: 0.5 }, "-=0.6");
+  });
 
   // Skills
   gsap.fromTo('#skills .section-header', 
@@ -68,14 +71,17 @@ export function initScrollAnimations(lenis) {
 
   // 3D Tilt
   document.querySelectorAll('[data-tilt]').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.willChange = 'transform';
+    });
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const dx = e.clientX - rect.left - rect.width / 2;
       const dy = e.clientY - rect.top - rect.height / 2;
-      gsap.to(card, { rotateY: dx * 0.03, rotateX: -dy * 0.03, duration: 0.4 });
-    });
+      gsap.to(card, { rotateY: dx * 0.02, rotateX: -dy * 0.02, duration: 0.4 });
+    }, { passive: true });
     card.addEventListener('mouseleave', () => {
-      gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.5 });
+      gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.5, onComplete: () => card.style.willChange = '' });
     });
   });
 
@@ -83,7 +89,7 @@ export function initScrollAnimations(lenis) {
   document.querySelectorAll('.timeline').forEach(timeline => {
     gsap.to(timeline.querySelector('.timeline-line'), {
       scaleY: 1,
-      scrollTrigger: { trigger: timeline, scrub: 1, start: 'top 80%', end: 'bottom 20%' }
+      scrollTrigger: { trigger: timeline, scrub: 1, start: 'top 80%', end: 'bottom 20%', invalidateOnRefresh: true }
     });
 
     gsap.fromTo(timeline.querySelectorAll('.timeline-item'), 
@@ -110,15 +116,15 @@ export function initScrollAnimations(lenis) {
   // Parallax
   gsap.to('.hero-overlay', {
     y: 60, ease: 'none',
-    scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: true }
+    scrollTrigger: { trigger: '#home', start: 'top top', end: 'bottom top', scrub: true, invalidateOnRefresh: true }
   });
   gsap.to('.bg-shape-1', {
     y: -50, ease: 'none',
-    scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: true }
+    scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true }
   });
   gsap.to('.bg-shape-2', {
     y: -80, ease: 'none',
-    scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: true }
+    scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true }
   });
 
   // Typing effect
@@ -153,4 +159,6 @@ export function initScrollAnimations(lenis) {
     setTimeout(typeRole, typeSpeed);
   }
   setTimeout(typeRole, 1000);
+
+  window.ScrollTrigger.refresh();
 }
