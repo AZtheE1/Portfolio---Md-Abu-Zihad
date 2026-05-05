@@ -9,15 +9,16 @@ export function initVideoScroll() {
       return;
     }
 
-    // Use GSAP for smooth scrubbing across the entire page
-    gsap.to(video, {
-      currentTime: video.duration || 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: 'body',
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 1, // Smooth scrub with 1s delay for fluid feel
+    // Direct ScrollTrigger update for maximum responsiveness
+    // This avoids the "tweening" overhead and updates frames as fast as the browser allows
+    ScrollTrigger.create({
+      trigger: 'body',
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: (self) => {
+        if (video.duration && !isNaN(video.duration)) {
+          video.currentTime = self.progress * video.duration;
+        }
       }
     });
   };
@@ -32,15 +33,14 @@ export function initVideoScroll() {
     });
   };
 
-  if (video.readyState >= 3) {
+  if (video.readyState >= 2) { // 2 = HAVE_CURRENT_DATA, enough to show first frame
     showVideo();
   } else {
     video.addEventListener('loadedmetadata', () => {
-      // Ensure duration is known before setup
+      // Metadata is enough to know duration
     }, { once: true });
     
     video.addEventListener('loadeddata', showVideo, { once: true });
-    video.addEventListener('canplaythrough', showVideo, { once: true });
     
     setTimeout(() => {
       if (parseFloat(window.getComputedStyle(video).opacity) === 0) {
