@@ -1,5 +1,3 @@
-import { calculateScrollProgress } from './utils.js';
-
 export function initVideoScroll() {
   const video = document.getElementById('hero-video');
   const hero = document.getElementById('home');
@@ -15,6 +13,12 @@ export function initVideoScroll() {
   } else {
     video.addEventListener('loadeddata', showVideo, { once: true });
     video.addEventListener('canplaythrough', showVideo, { once: true });
+    
+    setTimeout(() => {
+      if (parseFloat(window.getComputedStyle(video).opacity) === 0) {
+        showVideo();
+      }
+    }, 800);
   }
 
   video.addEventListener('error', () => {
@@ -23,30 +27,21 @@ export function initVideoScroll() {
   });
 
   if (window.innerWidth < 768) {
+    video.play();
     return;
   }
 
-  let rafId;
   const loop = () => {
-    const scrollProgress = calculateScrollProgress(window.scrollY, hero.offsetHeight);
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollProgress = Math.max(0, Math.min(1, window.scrollY / maxScroll));
+    
     if (video.duration) {
       const newTime = scrollProgress * video.duration;
       if (Math.abs(newTime - video.currentTime) > 0.04) {
         video.currentTime = newTime;
       }
     }
-    rafId = requestAnimationFrame(loop);
+    requestAnimationFrame(loop);
   };
-  rafId = requestAnimationFrame(loop);
-
-  gsap.to('#hero-video', {
-    opacity: 0,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '#home',
-      start: 'bottom 60%',
-      end: 'bottom top',
-      scrub: true,
-    }
-  });
+  requestAnimationFrame(loop);
 }

@@ -28,14 +28,12 @@
 }
 
 html {
+  background-color: #000;
   scroll-behavior: smooth;
 }
 
-html, body {
-  background-color: #000;
-}
-
 body {
+  background-color: transparent;
   color: var(--text);
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
@@ -76,7 +74,7 @@ body {
   background: var(--blue);
   position: fixed;
   pointer-events: none;
-  z-index: 9998;
+  z-index: 9999;
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
@@ -87,7 +85,7 @@ body {
   border: 1.5px solid rgba(59, 130, 246, 0.6);
   position: fixed;
   pointer-events: none;
-  z-index: 9997;
+  z-index: 9999;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   transition: width 0.2s, height 0.2s, border-color 0.2s;
@@ -102,7 +100,7 @@ body {
 header {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   background: rgba(8, 8, 16, 0.85);
   backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--border);
@@ -209,6 +207,7 @@ nav a:focus-visible::after {
   display: flex;
   align-items: center;
   padding: 0;
+  margin-bottom: 0;
 }
 
 #hero-video {
@@ -230,7 +229,7 @@ nav a:focus-visible::after {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(135deg, rgba(8, 8, 16, 0.92) 0%, rgba(8, 8, 16, 0.75) 50%, rgba(8, 8, 16, 0.88) 100%);
+  background: linear-gradient(135deg, rgba(8, 8, 16, 0.6) 0%, rgba(8, 8, 16, 0.4) 50%, rgba(8, 8, 16, 0.6) 100%);
 }
 
 .hero-content {
@@ -1099,13 +1098,14 @@ footer {
   box-shadow: 0 15px 25px rgba(59, 130, 246, 0.4);
 }
 
-#skills, #projects, #experience, #contact {
-  background: rgba(8, 8, 16, 0.90);
+#skills, #projects, #experience, #contact, footer {
+  background: rgba(8, 8, 16, 0.82);
   position: relative;
-  z-index: 1;
+  z-index: 0;
+  margin-top: 0;
 }
 
-#skills::before, #projects::before, #experience::before, #contact::before {
+#skills::before, #projects::before, #experience::before, #contact::before, footer::before {
   content: '';
   position: absolute;
   top: 0; left: 50%;
