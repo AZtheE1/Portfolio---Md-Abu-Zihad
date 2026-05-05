@@ -3,16 +3,44 @@ export function initVideoScroll() {
   const hero = document.getElementById('home');
   if (!video || !hero) return;
 
-  const showVideo = () => {
-    video.pause();
-    gsap.fromTo(video, { opacity: 0 }, { opacity: 1, duration: 1, delay: 0.2 });
+  const setupScrub = () => {
+    if (window.innerWidth < 768) {
+      video.play();
+      return;
+    }
+
+    // Direct ScrollTrigger update for maximum responsiveness
+    // This avoids the "tweening" overhead and updates frames as fast as the browser allows
+    ScrollTrigger.create({
+      trigger: 'body',
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: (self) => {
+        if (video.duration && !isNaN(video.duration)) {
+          video.currentTime = self.progress * video.duration;
+        }
+      }
+    });
   };
 
-  if (video.readyState >= 3) {
+  const showVideo = () => {
+    video.pause();
+    gsap.fromTo(video, { opacity: 0 }, { 
+      opacity: 1, 
+      duration: 1, 
+      delay: 0.2,
+      onComplete: setupScrub
+    });
+  };
+
+  if (video.readyState >= 2) { // 2 = HAVE_CURRENT_DATA, enough to show first frame
     showVideo();
   } else {
+    video.addEventListener('loadedmetadata', () => {
+      // Metadata is enough to know duration
+    }, { once: true });
+    
     video.addEventListener('loadeddata', showVideo, { once: true });
-    video.addEventListener('canplaythrough', showVideo, { once: true });
     
     setTimeout(() => {
       if (parseFloat(window.getComputedStyle(video).opacity) === 0) {
@@ -25,23 +53,4 @@ export function initVideoScroll() {
     hero.classList.add('video-failed');
     if (video.parentNode) video.parentNode.removeChild(video);
   });
-
-  if (window.innerWidth < 768) {
-    video.play();
-    return;
-  }
-
-  const loop = () => {
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollProgress = Math.max(0, Math.min(1, window.scrollY / maxScroll));
-    
-    if (video.duration) {
-      const newTime = scrollProgress * video.duration;
-      if (Math.abs(newTime - video.currentTime) > 0.04) {
-        video.currentTime = newTime;
-      }
-    }
-    requestAnimationFrame(loop);
-  };
-  requestAnimationFrame(loop);
 }
