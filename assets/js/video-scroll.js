@@ -3,10 +3,17 @@ export function initVideoScroll() {
   const hero = document.getElementById('home');
   if (!video || !hero) return;
 
-  video.addEventListener('canplaythrough', () => {
+  const showVideo = () => {
     video.pause();
     gsap.to(video, { opacity: 1, duration: 0.6 });
-  }, { once: true });
+  };
+
+  if (video.readyState >= 3) {
+    showVideo();
+  } else {
+    video.addEventListener('loadeddata', showVideo, { once: true });
+    video.addEventListener('canplaythrough', showVideo, { once: true });
+  }
 
   video.addEventListener('error', () => {
     hero.classList.add('video-failed');

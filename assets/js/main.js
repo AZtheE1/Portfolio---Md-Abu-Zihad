@@ -3,12 +3,17 @@ import { initScrollAnimations } from './scroll-animations.js';
 import { initCursor } from './cursor.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const lenis = new window.Lenis({
-    duration: 1.4,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smooth: true,
-    smoothTouch: false
-  });
+  let lenis;
+  try {
+    lenis = new Lenis({
+      duration: 1.4,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      smoothTouch: false
+    });
+  } catch (e) {
+    console.error('Lenis initialization failed:', e);
+  }
 
   initCursor();
   initVideoScroll();
@@ -79,18 +84,26 @@ document.addEventListener('DOMContentLoaded', () => {
       const originalText = btn.textContent;
       const messageDiv = form.querySelector('.form-message');
       
-      btn.textContent = 'Sending...';
+      const formData = new FormData(form);
+      const name = formData.get('name');
+      const subject = formData.get('subject');
+      const message = formData.get('message');
+      
+      btn.textContent = 'Opening Mail...';
       btn.disabled = true;
 
-      // Simulate form submission success
+      // Real mailto functionality
       setTimeout(() => {
-        messageDiv.textContent = 'Message sent successfully!';
+        const mailtoLink = `mailto:azihad783@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Name: " + name + "\n\n" + message)}`;
+        window.location.href = mailtoLink;
+        
+        messageDiv.textContent = 'Mail client opened!';
         messageDiv.style.color = 'var(--teal)';
         form.reset();
         btn.textContent = originalText;
         btn.disabled = false;
         setTimeout(() => messageDiv.textContent = '', 5000);
-      }, 1500);
+      }, 500);
     });
   }
 
@@ -103,14 +116,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = document.querySelector(targetId);
       if (target) {
         e.preventDefault();
-        lenis.scrollTo(target, { offset: -80, duration: 1.2 });
+        if (lenis) {
+          lenis.scrollTo(target, { offset: -80, duration: 1.2 });
+        } else {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
       }
     });
   });
 
-  // Scroll to top button (optional added if requested, though prompt had a note about it)
-  // The user prompt mentioned: "Show when scrollY > 600 (add .visible class) lenis.scrollTo(0, {duration:1.2}) on click" 
-  // Wait, I missed adding #scroll-top to HTML. Let's add it via JS if not exists or just handle if exists.
+  // Scroll to top button
   const scrollTopBtn = document.getElementById('scroll-top');
   if (scrollTopBtn) {
     window.addEventListener('scroll', () => {
@@ -122,7 +137,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     scrollTopBtn.addEventListener('click', () => {
-      lenis.scrollTo(0, { duration: 1.2 });
+      if (lenis) {
+        lenis.scrollTo(0, { duration: 1.2 });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     });
   }
 

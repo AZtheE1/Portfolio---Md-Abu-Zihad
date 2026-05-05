@@ -1,16 +1,17 @@
 export function initScrollAnimations(lenis) {
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(window.ScrollTrigger);
 
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => { lenis.raf(time * 1000) });
-  gsap.ticker.lagSmoothing(0);
+  if (lenis) {
+    lenis.on('scroll', window.ScrollTrigger.update);
+    gsap.ticker.add((time) => { lenis.raf(time * 1000) });
+    gsap.ticker.lagSmoothing(0);
+  }
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     gsap.globalTimeline.timeScale(100);
-    return;
   }
 
-  ScrollTrigger.create({
+  window.ScrollTrigger.create({
     start: 'top top',
     end: 'bottom bottom',
     onUpdate: (self) => {
@@ -32,26 +33,38 @@ export function initScrollAnimations(lenis) {
         .from('.info-card', { opacity: 0, x: 20, stagger: 0.12, duration: 0.5 }, "-=0.6");
 
   // Skills
-  gsap.from('#skills .section-header', {
-    opacity: 0, y: 30,
-    scrollTrigger: { trigger: '#skills', start: 'top 85%' }
-  });
+  gsap.fromTo('#skills .section-header', 
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 0.6, scrollTrigger: { trigger: '#skills', start: 'top 80%' } }
+  );
 
-  gsap.from('.skill-card', {
-    opacity: 0, y: 40, stagger: 0.07,
-    scrollTrigger: { trigger: '.skills-grid', start: 'top 85%' }
-  });
+  gsap.fromTo('.skill-card', 
+    { opacity: 0, y: 40 },
+    { 
+      opacity: 1, y: 0, stagger: 0.07, duration: 0.6, 
+      clearProps: 'opacity,transform',
+      scrollTrigger: { trigger: '#skills', start: 'top 60%' } 
+    }
+  );
 
   // Projects
-  gsap.from('.featured-project', {
-    opacity: 0, y: 50, duration: 0.7,
-    scrollTrigger: { trigger: '.featured-project', start: 'top 85%' }
-  });
+  gsap.fromTo('.featured-project', 
+    { opacity: 0, y: 50 },
+    { 
+      opacity: 1, y: 0, duration: 0.7, 
+      clearProps: 'opacity,transform',
+      scrollTrigger: { trigger: '#projects', start: 'top 70%' } 
+    }
+  );
 
-  gsap.from('.project-card', {
-    opacity: 0, y: 35, rotateX: 3, stagger: 0.1,
-    scrollTrigger: { trigger: '.projects-grid', start: 'top 85%' }
-  });
+  gsap.fromTo('.project-card', 
+    { opacity: 0, y: 35, rotateX: 3 },
+    { 
+      opacity: 1, y: 0, rotateX: 0, stagger: 0.1, duration: 0.6,
+      clearProps: 'opacity,transform',
+      scrollTrigger: { trigger: '.projects-grid', start: 'top 80%' } 
+    }
+  );
 
   // 3D Tilt
   document.querySelectorAll('[data-tilt]').forEach(card => {
@@ -73,26 +86,26 @@ export function initScrollAnimations(lenis) {
       scrollTrigger: { trigger: timeline, scrub: 1, start: 'top 80%', end: 'bottom 20%' }
     });
 
-    gsap.from(timeline.querySelectorAll('.timeline-item'), {
-      opacity: 0, x: -30, stagger: 0.2,
-      scrollTrigger: { trigger: timeline, start: 'top 80%' }
-    });
+    gsap.fromTo(timeline.querySelectorAll('.timeline-item'), 
+      { opacity: 0, x: -30 },
+      { opacity: 1, x: 0, stagger: 0.2, scrollTrigger: { trigger: timeline, start: 'top 80%' } }
+    );
 
-    gsap.from(timeline.querySelectorAll('.timeline-dot'), {
-      scale: 0, opacity: 0, stagger: 0.2, duration: 0.6, ease: "elastic.out(1, 0.3)",
-      scrollTrigger: { trigger: timeline, start: 'top 80%' }
-    });
+    gsap.fromTo(timeline.querySelectorAll('.timeline-dot'), 
+      { scale: 0, opacity: 0 },
+      { scale: 1, opacity: 1, stagger: 0.2, duration: 0.6, ease: "elastic.out(1, 0.3)", scrollTrigger: { trigger: timeline, start: 'top 80%' } }
+    );
   });
   
   // Contact
-  gsap.from('.contact-left', {
-    opacity: 0, x: -40, duration: 0.6,
-    scrollTrigger: { trigger: '#contact', start: 'top 80%' }
-  });
-  gsap.from('.contact-form-wrapper', {
-    opacity: 0, x: 40, duration: 0.6,
-    scrollTrigger: { trigger: '#contact', start: 'top 80%' }
-  });
+  gsap.fromTo('.contact-left', 
+    { opacity: 0, x: -40 },
+    { opacity: 1, x: 0, duration: 0.6, scrollTrigger: { trigger: '#contact', start: 'top 80%' } }
+  );
+  gsap.fromTo('.contact-form-wrapper', 
+    { opacity: 0, x: 40 },
+    { opacity: 1, x: 0, duration: 0.6, scrollTrigger: { trigger: '#contact', start: 'top 80%' } }
+  );
 
   // Parallax
   gsap.to('.hero-overlay', {
@@ -109,7 +122,7 @@ export function initScrollAnimations(lenis) {
   });
 
   // Typing effect
-  const roles = ["Full-Stack Developer", "Software Engineer", "React & NestJS Expert"];
+  const roles = ["Computer Science Engineer", "Full-Stack Developer", "Product Manager"];
   let roleIdx = 0;
   let charIdx = 0;
   let isDeleting = false;

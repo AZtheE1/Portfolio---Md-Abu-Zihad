@@ -28,7 +28,7 @@ export function initCursor() {
   requestAnimationFrame(render);
 
   document.querySelectorAll('[data-magnetic]').forEach(el => {
-    el.addEventListener('mouseenter', () => {
+    el.addEventListener('mousemove', (e) => {
       const rect = el.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
@@ -37,7 +37,7 @@ export function initCursor() {
       gsap.to(el, { x: pullX, y: pullY, duration: 0.3 });
     });
     el.addEventListener('mouseleave', () => {
-      gsap.to(el, { x: 0, y: 0, duration: 0.5 });
+      gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'power2.out' });
     });
   });
 

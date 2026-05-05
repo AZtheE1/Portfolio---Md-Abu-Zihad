@@ -154,8 +154,14 @@ nav a.active::after {
 }
 
 nav a:hover,
-nav a.active {
+nav a.active,
+nav a:focus-visible {
   color: var(--text);
+  outline: none;
+}
+
+nav a:focus-visible::after {
+  width: 100%;
 }
 
 .nav-cta {
@@ -210,6 +216,10 @@ nav a.active {
   object-fit: cover;
   z-index: 0;
   opacity: 0;
+}
+
+#home.video-failed {
+  background: radial-gradient(circle at center, rgba(139, 92, 246, 0.15) 0%, var(--bg) 100%);
 }
 
 .hero-overlay {
@@ -579,7 +589,7 @@ p.section-subtitle {
   align-items: center;
   gap: 0.75rem;
   cursor: default;
-  transition: all var(--transition);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
   transform-style: preserve-3d;
   perspective: 1000px;
 }
@@ -671,7 +681,7 @@ p.section-subtitle {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  transition: all var(--transition);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
   transform-style: preserve-3d;
 }
 
@@ -723,8 +733,6 @@ p.section-subtitle {
 .timeline-item {
   position: relative;
   padding-bottom: 2.5rem;
-  opacity: 0;
-  transform: translateX(-20px);
 }
 
 .timeline-dot {
@@ -1041,4 +1049,38 @@ footer {
   header, nav ul {
     backdrop-filter: none !important;
   }
+}
+
+.btn-scroll-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--gradient);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all var(--transition);
+  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+}
+
+.btn-scroll-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.btn-scroll-top:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(59, 130, 246, 0.4);
 }
