@@ -1,0 +1,8 @@
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+.env
+# Note: MP4 files ARE tracked intentionally
+# If video > 50MB, use Git LFS:
+# git lfs track "*.mp4"
