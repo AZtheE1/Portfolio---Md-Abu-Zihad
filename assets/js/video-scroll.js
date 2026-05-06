@@ -4,13 +4,7 @@ export function initVideoScroll() {
   if (!video || !hero) return;
 
   const setupScrub = () => {
-    if (window.innerWidth < 768) {
-      video.play();
-      return;
-    }
-
-    // Direct ScrollTrigger update for maximum responsiveness
-    // This avoids the "tweening" overhead and updates frames as fast as the browser allows
+    // Enabled scroll-sync for all screen sizes to maintain the 3D scroll effect on mobile
     ScrollTrigger.create({
       trigger: 'body',
       start: 'top top',
