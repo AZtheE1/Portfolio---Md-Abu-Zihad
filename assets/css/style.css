@@ -962,11 +962,40 @@ footer {
 }
 
 @media (max-width: 1024px) {
+  #home {
+    height: auto;
+    min-height: 100vh;
+    padding: 120px 0 80px;
+    overflow: visible;
+  }
   .hero-content {
     grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
   }
   .hero-visual {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    order: -1;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .stats-row {
+    justify-content: center;
+  }
+  .tech-pills {
+    justify-content: center;
+  }
+  .hero-cta {
+    justify-content: center;
+  }
+  .profile-ring {
+    width: 220px;
+    height: 220px;
   }
   .projects-grid {
     grid-template-columns: 1fr;
@@ -1099,6 +1128,7 @@ footer {
   transform: translateY(-5px);
   box-shadow: 0 15px 25px rgba(59, 130, 246, 0.4);
 }
+
 #skills, #projects, #experience, #contact, footer {
   background: rgba(8, 8, 16, 0.6);
   position: relative;
