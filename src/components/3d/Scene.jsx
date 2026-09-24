@@ -1,12 +1,13 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows, Html } from '@react-three/drei';
+import { CameraControls, Environment as DreiEnvironment, ContactShadows, Html } from '@react-three/drei';
 import { useControls, button } from 'leva';
 
 import Avatar from './Avatar';
 import Desk from './Desk';
 import Chair from './Chair';
 import Laptop from './Laptop';
+import Environment from './Environment';
 import ThreeErrorBoundary from './ThreeErrorBoundary';
 
 // Professional Cyber Loading Overlay
@@ -30,17 +31,25 @@ function Loader() {
 }
 
 export default function Scene() {
-  // 1. Avatar Controls (your confirmed position)
+  const cameraControlsRef = useRef(null);
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  // Default camera configuration looking at desk/avatar
+  const defaultCamera = {
+    position: [0, 1.8, 4.2],
+    target: [0.2, 0.4, 0],
+  };
+
+  // 1. Avatar Controls
   const avatarControls = useControls('🧑 Avatar Positioning', {
     avatarX: { value: 0.40, min: -5, max: 5, step: 0.01 },
     avatarY: { value: -0.20, min: -5, max: 5, step: 0.01 },
     avatarZ: { value: 0.56, min: -5, max: 5, step: 0.01 },
     avatarScale: { value: 1.50, min: 0.2, max: 4, step: 0.05 },
     avatarRotY: { value: -2.50, min: -Math.PI, max: Math.PI, step: 0.05 },
-    avatarAnim: { options: ['typing', 'waving'], value: 'typing' },
   });
 
-  // 2. Laptop Controls (your confirmed position)
+  // 2. Laptop Controls
   const laptopControls = useControls('💻 Laptop Positioning', {
     laptopX: { value: 0.40, min: -5, max: 5, step: 0.01 },
     laptopY: { value: 1.07, min: -5, max: 5, step: 0.01 },
@@ -49,7 +58,7 @@ export default function Scene() {
     laptopRotY: { value: -1.50, min: -Math.PI, max: Math.PI, step: 0.05 },
   });
 
-  // 3. Desk Controls (your confirmed position)
+  // 3. Desk Controls
   const deskControls = useControls('🪑 Desk Positioning', {
     deskX: { value: 0.00, min: -5, max: 5, step: 0.01 },
     deskY: { value: 0.00, min: -5, max: 5, step: 0.01 },
@@ -58,7 +67,7 @@ export default function Scene() {
     deskScale: { value: 2.50, min: 0.1, max: 5, step: 0.05 },
   });
 
-  // 4. Chair Controls (your confirmed position)
+  // 4. Chair Controls
   const chairControls = useControls('💺 Chair Positioning', {
     chairX: { value: 0.41, min: -5, max: 5, step: 0.01 },
     chairY: { value: -0.01, min: -5, max: 5, step: 0.01 },
@@ -66,6 +75,38 @@ export default function Scene() {
     chairRotY: { value: -3.14, min: -Math.PI, max: Math.PI, step: 0.05 },
     chairScale: { value: 1.35, min: 0.1, max: 5, step: 0.05 },
   });
+
+  // 2 & 3. Smooth Camera Navigation Math using CameraControls
+  const zoomTo = ({ position, target }) => {
+    if (cameraControlsRef.current) {
+      cameraControlsRef.current.setLookAt(
+        position[0],
+        position[1],
+        position[2],
+        target[0],
+        target[1],
+        target[2],
+        true // Enables smooth interpolation
+      );
+      setIsZoomed(true);
+    }
+  };
+
+  // 6. Reset to default Desk / Room view
+  const resetToDesk = () => {
+    if (cameraControlsRef.current) {
+      cameraControlsRef.current.setLookAt(
+        defaultCamera.position[0],
+        defaultCamera.position[1],
+        defaultCamera.position[2],
+        defaultCamera.target[0],
+        defaultCamera.target[1],
+        defaultCamera.target[2],
+        true
+      );
+      setIsZoomed(false);
+    }
+  };
 
   // Export calibrated values button
   useControls({
@@ -79,21 +120,49 @@ export default function Scene() {
   });
 
   return (
-    <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', background: '#05070f' }}>
+    <div className="relative w-screen h-screen overflow-hidden bg-[#05070f]">
+      {/* 6. 2D HTML Reset Button Overlay */}
+      {isZoomed && (
+        <div className="absolute top-6 left-6 z-30 animate-fadeIn">
+          <button
+            onClick={resetToDesk}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#05070f]/90 hover:bg-slate-900 border border-[#00f0ff]/60 hover:border-[#00f0ff] text-[#00f0ff] font-mono text-xs font-bold tracking-wider shadow-[0_0_20px_rgba(0,240,255,0.35)] transition-all cursor-pointer backdrop-blur-md"
+          >
+            <span>&larr;</span>
+            <span>BACK TO DESK</span>
+          </button>
+        </div>
+      )}
+
+      {/* Floating Instructions Badge */}
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 bg-slate-950/80 backdrop-blur-md border border-slate-800 px-4 py-2 rounded-full text-xs font-mono text-slate-300 pointer-events-none flex items-center gap-2 shadow-lg">
+        <span className="w-2 h-2 rounded-full bg-[#00f0ff] animate-ping" />
+        <span>
+          {isZoomed
+            ? 'INSPECTING CLASSIFIED NOTE &bull; CLICK [BACK TO DESK] TO RETURN'
+            : 'CLICK ANY NOTE ON THE BOARD TO GLIDE CAMERA'}
+        </span>
+      </div>
+
       <Canvas 
-        camera={{ position: [0, 2, 4], fov: 50 }} 
+        camera={{ position: defaultCamera.position, fov: 50 }} 
         gl={{ antialias: true, powerPreference: 'high-performance' }}
         style={{ width: '100%', height: '100%' }}
       >
         {/* Soft Ambient & Directional Lighting */}
         <ambientLight intensity={0.9} />
         <directionalLight position={[5, 10, 5]} intensity={1.8} castShadow />
-        <Environment preset="city" />
+        <DreiEnvironment preset="city" />
 
         {/* Suspense with custom HTML Loader */}
         <Suspense fallback={<Loader />}>
           <group position={[0, -1, 0]}>
             
+            {/* 4. Crime Scene Board Environment with Click-to-Zoom */}
+            <ThreeErrorBoundary name="Environment">
+              <Environment zoomTo={zoomTo} />
+            </ThreeErrorBoundary>
+
             {/* Desk */}
             <ThreeErrorBoundary name="Desk">
               <group 
@@ -127,14 +196,14 @@ export default function Scene() {
               </group>
             </ThreeErrorBoundary>
 
-            {/* Avatar seated in Chair - Isolated with its own ErrorBoundary */}
+            {/* Avatar seated in Chair */}
             <ThreeErrorBoundary name="Avatar">
               <group 
                 position={[avatarControls.avatarX, avatarControls.avatarY, avatarControls.avatarZ]} 
                 rotation={[0, avatarControls.avatarRotY, 0]} 
                 scale={avatarControls.avatarScale}
               >
-                <Avatar animation={avatarControls.avatarAnim} />
+                <Avatar />
               </group>
             </ThreeErrorBoundary>
 
@@ -149,12 +218,13 @@ export default function Scene() {
           </group>
         </Suspense>
 
-        {/* Orbit Controls with UX bounds */}
-        <OrbitControls 
-          makeDefault 
+        {/* 1. CameraControls for Cinematic setLookAt transitions */}
+        <CameraControls 
+          ref={cameraControlsRef} 
           maxPolarAngle={Math.PI / 2 - 0.02} 
-          minDistance={1.8}
-          maxDistance={7.5}
+          minDistance={1.2}
+          maxDistance={8.0}
+          dollyToCursor={true}
         />
       </Canvas>
     </div>
