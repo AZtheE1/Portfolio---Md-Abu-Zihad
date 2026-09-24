@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { PortfolioShell } from '../components/PortfolioShell';
+import '../styles/global.css';
+
+const caseStudies = await getCollection('case-studies');
+---
+
+<Layout title="Md. Abu Zihad | Interactive 3D Portfolio">
+  <PortfolioShell client:only="react" caseStudies={caseStudies} />
+</Layout>
