@@ -1,12 +1,34 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-import { PortfolioShell } from '../components/PortfolioShell';
+import Scene from '../components/3d/Scene.jsx';
 import '../styles/global.css';
-
-const caseStudies = await getCollection('case-studies');
 ---
 
-<Layout title="Md. Abu Zihad | Interactive 3D Portfolio">
-  <PortfolioShell client:only="react" caseStudies={caseStudies} />
-</Layout>
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Md. Abu Zihad | 3D Interactive Portfolio</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background-color: #05070f;
+      }
+      main {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <Scene client:only="react" />
+    </main>
+  </body>
+</html>
