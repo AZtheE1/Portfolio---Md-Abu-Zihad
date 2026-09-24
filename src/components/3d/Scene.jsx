@@ -57,13 +57,13 @@ export default function Scene() {
     deskScale: { value: 2.50, min: 0.1, max: 5, step: 0.05 },
   });
 
-  // 4. Chair Controls: PRE-ALIGNED right at the avatar and desk
+  // 4. Chair Controls: perfectly situated at avatar (0.40, 0, 0.56)
   const chairControls = useControls('💺 Chair Positioning', {
-    chairX: { value: 0.35, min: -8, max: 8, step: 0.01 },
-    chairY: { value: 0.00, min: -5, max: 5, step: 0.01 },
-    chairZ: { value: 0.65, min: -8, max: 8, step: 0.01 },
-    chairRotY: { value: -2.50, min: -Math.PI, max: Math.PI, step: 0.05 },
-    chairScale: { value: 1.35, min: 0.1, max: 5, step: 0.05 },
+    chairX: { value: 0.40, min: -4, max: 4, step: 0.01 },
+    chairY: { value: 0.00, min: -3, max: 3, step: 0.01 },
+    chairZ: { value: 0.60, min: -4, max: 4, step: 0.01 },
+    chairRotY: { value: 0.65, min: -Math.PI, max: Math.PI, step: 0.05 },
+    chairScale: { value: 1.00, min: 0.1, max: 3, step: 0.05 },
   });
 
   // Export calibrated values button
@@ -111,7 +111,7 @@ export default function Scene() {
               <Laptop />
             </group>
 
-            {/* Chair behind Desk - positioned right under Avatar */}
+            {/* Chair behind Desk - centered right under Avatar */}
             <group 
               position={[chairControls.chairX, chairControls.chairY, chairControls.chairZ]} 
               rotation={[0, chairControls.chairRotY, 0]} 
