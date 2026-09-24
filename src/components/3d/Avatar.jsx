@@ -2,36 +2,47 @@
 Enhanced Avaturn Model Component with Mixamo Animations & Detailed Debugging
 */
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 import { useGLTF, useAnimations } from '@react-three/drei';
+import * as THREE from 'three';
 
 export function Avatar({ animation = 'typing', ...props }) {
   const group = useRef();
 
   // 1. Load the base Avaturn avatar mesh & skeleton
-  const { scene, nodes, materials } = useGLTF('/models/avatar.glb');
+  const { nodes, materials } = useGLTF('/models/avatar.glb');
 
   // 2. Load the external Mixamo animation files from public/animations
   const { animations: typingAnimations } = useGLTF('/animations/Typing.glb');
   const { animations: wavingAnimations } = useGLTF('/animations/Waving.glb');
 
-  // Clone clips and assign names so we don't mutate shared cached GLTF clips
-  const clips = React.useMemo(() => {
+  // Strip bone prefixes (like 'mixamorig:') so Mixamo animation tracks map 1:1 to avatar bone hierarchy
+  const clips = useMemo(() => {
     const list = [];
-    if (typingAnimations && typingAnimations.length > 0) {
-      const clip = typingAnimations[0].clone();
-      clip.name = 'typing';
-      list.push(clip);
+    const sanitizeClip = (sourceClip, newName) => {
+      if (!sourceClip) return null;
+      const clip = sourceClip.clone();
+      clip.name = newName;
+      clip.tracks.forEach((track) => {
+        // Avaturn bones: 'Hips.position', 'Spine.quaternion', etc.
+        // If Mixamo exported with 'mixamorigHips.position' or 'Armature/mixamorig:Hips.position', clean it:
+        track.name = track.name
+          .replace(/^.*mixamorig:?/i, '')
+          .replace(/^.*Armature\|?/i, '');
+      });
+      return clip;
+    };
+
+    if (typingAnimations && typingAnimations[0]) {
+      list.push(sanitizeClip(typingAnimations[0], 'typing'));
     }
-    if (wavingAnimations && wavingAnimations.length > 0) {
-      const clip = wavingAnimations[0].clone();
-      clip.name = 'waving';
-      list.push(clip);
+    if (wavingAnimations && wavingAnimations[0]) {
+      list.push(sanitizeClip(wavingAnimations[0], 'waving'));
     }
-    return list;
+    return list.filter(Boolean);
   }, [typingAnimations, wavingAnimations]);
 
-  // Bind animations to the group ref
+  // Bind sanitized animations to the group ref
   const { actions, names } = useAnimations(clips, group);
 
   // Play execution with cross-fade
@@ -39,7 +50,7 @@ export function Avatar({ animation = 'typing', ...props }) {
     const actionToPlay = actions[animation] || actions[Object.keys(actions)[0]];
 
     if (actionToPlay) {
-      console.log(`▶️ Playing animation: "${actionToPlay.getClip().name}"`);
+      console.log(`▶️ Successfully playing clip: "${actionToPlay.getClip().name}" with ${actionToPlay.getClip().tracks.length} tracks`);
       actionToPlay.reset().fadeIn(0.3).play();
     } else {
       console.warn(`Animation "${animation}" not found in`, Object.keys(actions));
