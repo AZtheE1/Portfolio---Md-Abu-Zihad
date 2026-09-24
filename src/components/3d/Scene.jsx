@@ -29,7 +29,7 @@ function Loader() {
 }
 
 export default function Scene() {
-  // 1. Avatar Controls
+  // 1. Avatar Controls (your confirmed position)
   const avatarControls = useControls('🧑 Avatar Positioning', {
     avatarX: { value: 0.40, min: -5, max: 5, step: 0.01 },
     avatarY: { value: -0.20, min: -5, max: 5, step: 0.01 },
@@ -39,7 +39,7 @@ export default function Scene() {
     avatarAnim: { options: ['typing', 'waving'], value: 'typing' },
   });
 
-  // 2. Laptop Controls
+  // 2. Laptop Controls (your confirmed position)
   const laptopControls = useControls('💻 Laptop Positioning', {
     laptopX: { value: 0.40, min: -5, max: 5, step: 0.01 },
     laptopY: { value: 1.07, min: -5, max: 5, step: 0.01 },
@@ -48,7 +48,7 @@ export default function Scene() {
     laptopRotY: { value: -1.50, min: -Math.PI, max: Math.PI, step: 0.05 },
   });
 
-  // 3. Desk Controls
+  // 3. Desk Controls (your confirmed position)
   const deskControls = useControls('🪑 Desk Positioning', {
     deskX: { value: 0.00, min: -5, max: 5, step: 0.01 },
     deskY: { value: 0.00, min: -5, max: 5, step: 0.01 },
@@ -57,13 +57,13 @@ export default function Scene() {
     deskScale: { value: 2.50, min: 0.1, max: 5, step: 0.05 },
   });
 
-  // 4. Chair Controls: perfectly situated at avatar (0.40, 0, 0.56)
+  // 4. Chair Controls: locked to your confirmed screenshot values
   const chairControls = useControls('💺 Chair Positioning', {
-    chairX: { value: 0.40, min: -4, max: 4, step: 0.01 },
-    chairY: { value: 0.00, min: -3, max: 3, step: 0.01 },
-    chairZ: { value: 0.60, min: -4, max: 4, step: 0.01 },
-    chairRotY: { value: 0.65, min: -Math.PI, max: Math.PI, step: 0.05 },
-    chairScale: { value: 1.00, min: 0.1, max: 3, step: 0.05 },
+    chairX: { value: 0.41, min: -5, max: 5, step: 0.01 },
+    chairY: { value: -0.01, min: -5, max: 5, step: 0.01 },
+    chairZ: { value: 0.99, min: -5, max: 5, step: 0.01 },
+    chairRotY: { value: -3.14, min: -Math.PI, max: Math.PI, step: 0.05 },
+    chairScale: { value: 1.35, min: 0.1, max: 5, step: 0.05 },
   });
 
   // Export calibrated values button
@@ -111,7 +111,7 @@ export default function Scene() {
               <Laptop />
             </group>
 
-            {/* Chair behind Desk - centered right under Avatar */}
+            {/* Chair behind Desk - perfectly situated under Avatar */}
             <group 
               position={[chairControls.chairX, chairControls.chairY, chairControls.chairZ]} 
               rotation={[0, chairControls.chairRotY, 0]} 
