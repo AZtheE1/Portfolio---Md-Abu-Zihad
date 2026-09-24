@@ -29,41 +29,41 @@ function Loader() {
 }
 
 export default function Scene() {
-  // 1. Avatar Controls (preset to your estimated values)
+  // 1. Avatar Controls
   const avatarControls = useControls('🧑 Avatar Positioning', {
-    avatarX: { value: 0.40, min: -3, max: 3, step: 0.01 },
-    avatarY: { value: -0.20, min: -3, max: 3, step: 0.01 },
-    avatarZ: { value: 0.56, min: -3, max: 3, step: 0.01 },
-    avatarScale: { value: 1.50, min: 0.2, max: 3, step: 0.05 },
+    avatarX: { value: 0.40, min: -5, max: 5, step: 0.01 },
+    avatarY: { value: -0.20, min: -5, max: 5, step: 0.01 },
+    avatarZ: { value: 0.56, min: -5, max: 5, step: 0.01 },
+    avatarScale: { value: 1.50, min: 0.2, max: 4, step: 0.05 },
     avatarRotY: { value: -2.50, min: -Math.PI, max: Math.PI, step: 0.05 },
     avatarAnim: { options: ['typing', 'waving'], value: 'typing' },
   });
 
-  // 2. Laptop Controls (preset to your estimated values)
+  // 2. Laptop Controls
   const laptopControls = useControls('💻 Laptop Positioning', {
-    laptopX: { value: 0.40, min: -3, max: 3, step: 0.01 },
-    laptopY: { value: 1.07, min: -3, max: 3, step: 0.01 },
-    laptopZ: { value: -0.56, min: -3, max: 3, step: 0.01 },
+    laptopX: { value: 0.40, min: -5, max: 5, step: 0.01 },
+    laptopY: { value: 1.07, min: -5, max: 5, step: 0.01 },
+    laptopZ: { value: -0.56, min: -5, max: 5, step: 0.01 },
     laptopScale: { value: 0.55, min: 0.1, max: 5, step: 0.05 },
     laptopRotY: { value: -1.50, min: -Math.PI, max: Math.PI, step: 0.05 },
   });
 
-  // 3. Desk Controls (NOW INCLUDES FULL ROTATION deskRotY)
+  // 3. Desk Controls
   const deskControls = useControls('🪑 Desk Positioning', {
-    deskX: { value: 0.00, min: -4, max: 4, step: 0.01 },
-    deskY: { value: 0.00, min: -3, max: 3, step: 0.01 },
-    deskZ: { value: -0.50, min: -4, max: 4, step: 0.01 },
+    deskX: { value: 0.00, min: -5, max: 5, step: 0.01 },
+    deskY: { value: 0.00, min: -5, max: 5, step: 0.01 },
+    deskZ: { value: -0.50, min: -5, max: 5, step: 0.01 },
     deskRotY: { value: 0.00, min: -Math.PI, max: Math.PI, step: 0.05 },
     deskScale: { value: 2.50, min: 0.1, max: 5, step: 0.05 },
   });
 
-  // 4. Chair Controls (NOW FULLY MOVABLE & ROTATABLE)
+  // 4. Chair Controls: PRE-ALIGNED right at the avatar and desk
   const chairControls = useControls('💺 Chair Positioning', {
-    chairX: { value: 0.40, min: -4, max: 4, step: 0.01 },
-    chairY: { value: 0.00, min: -3, max: 3, step: 0.01 },
-    chairZ: { value: 0.56, min: -4, max: 4, step: 0.01 },
+    chairX: { value: 0.35, min: -8, max: 8, step: 0.01 },
+    chairY: { value: 0.00, min: -5, max: 5, step: 0.01 },
+    chairZ: { value: 0.65, min: -8, max: 8, step: 0.01 },
     chairRotY: { value: -2.50, min: -Math.PI, max: Math.PI, step: 0.05 },
-    chairScale: { value: 1.20, min: 0.2, max: 4, step: 0.05 },
+    chairScale: { value: 1.35, min: 0.1, max: 5, step: 0.05 },
   });
 
   // Export calibrated values button
@@ -93,7 +93,7 @@ export default function Scene() {
         <Suspense fallback={<Loader />}>
           <group position={[0, -1, 0]}>
             
-            {/* Desk with Position, Scale AND Rotation */}
+            {/* Desk */}
             <group 
               position={[deskControls.deskX, deskControls.deskY, deskControls.deskZ]} 
               rotation={[0, deskControls.deskRotY, 0]} 
@@ -111,7 +111,7 @@ export default function Scene() {
               <Laptop />
             </group>
 
-            {/* Chair behind Desk - Now with its own interactive controls */}
+            {/* Chair behind Desk - positioned right under Avatar */}
             <group 
               position={[chairControls.chairX, chairControls.chairY, chairControls.chairZ]} 
               rotation={[0, chairControls.chairRotY, 0]} 
