@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { AvatarModel } from './3d/AvatarModel';
 import { CyberDesk } from './3d/CyberDesk';
 import { HologramModal } from './3d/HologramModal';
+import { cyberAudio } from '../utils/cyberAudio';
 
 interface SceneItem {
   slug: string;
@@ -26,7 +27,31 @@ interface RoomSceneProps {
   caseStudies: SceneItem[];
 }
 
-// 4.3 Crime Scene Sticky Note with Dynamic Physics Sway & Camera Zoom Target
+// Luminous Holographic Halo / Glow Ring for Project Pins
+function NeonGlowHalo({ color }: { color: string }) {
+  const haloRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state) => {
+    if (haloRef.current) {
+      const scale = 1.0 + Math.sin(state.clock.elapsedTime * 3) * 0.08;
+      haloRef.current.scale.set(scale, scale, 1);
+    }
+  });
+
+  return (
+    <mesh ref={haloRef} position={[0, 0, -0.01]}>
+      <planeGeometry args={[1.35, 0.88]} />
+      <meshBasicMaterial
+        color={color}
+        transparent
+        opacity={0.35}
+        side={THREE.DoubleSide}
+      />
+    </mesh>
+  );
+}
+
+// 4.3 Crime Scene Sticky Note with Physics Sway & Spatial Audio
 function CrimeScenePin({
   position,
   color,
@@ -47,43 +72,49 @@ function CrimeScenePin({
 
   useFrame((state) => {
     if (meshRef.current) {
-      // Dynamic tilt sway on hover or idle breathing
-      const idleSway = Math.sin(state.clock.elapsedTime * 2 + position[0]) * 0.05;
-      const targetRotationY = hovered ? 0.35 : idleSway;
-      const targetScale = hovered || isSelected ? 1.2 : 1.0;
+      // Dynamic physics sway (pendulum simulation)
+      const idleSway = Math.sin(state.clock.elapsedTime * 2.2 + position[0] * 1.5) * 0.06;
+      const targetRotationY = hovered ? 0.38 : idleSway;
+      const targetScale = hovered || isSelected ? 1.18 : 1.0;
 
       meshRef.current.rotation.y = THREE.MathUtils.lerp(
         meshRef.current.rotation.y,
         targetRotationY,
-        0.1
+        0.12
       );
       meshRef.current.scale.lerp(
         new THREE.Vector3(targetScale, targetScale, targetScale),
-        0.1
+        0.12
       );
     }
   });
 
   return (
     <group position={position}>
+      {/* Luminous Neon Halo */}
+      {(hovered || isSelected) && <NeonGlowHalo color={color} />}
+
       <mesh
         ref={meshRef}
         onClick={(e) => {
           e.stopPropagation();
           onClick();
         }}
-        onPointerOver={() => setHovered(true)}
+        onPointerOver={() => {
+          setHovered(true);
+          cyberAudio.playKeyClick();
+        }}
         onPointerOut={() => setHovered(false)}
         castShadow
         receiveShadow
       >
-        <boxGeometry args={[1.2, 0.75, 0.04]} />
+        <boxGeometry args={[1.22, 0.76, 0.05]} />
         <meshStandardMaterial
           color={hovered || isSelected ? color : '#111827'}
           emissive={hovered || isSelected ? color : '#0b0f19'}
-          emissiveIntensity={hovered || isSelected ? 0.8 : 0.15}
-          roughness={0.3}
-          metalness={0.5}
+          emissiveIntensity={hovered || isSelected ? 1.5 : 0.25}
+          roughness={0.25}
+          metalness={0.6}
         />
       </mesh>
 
@@ -110,7 +141,7 @@ function CrimeScenePin({
         {`[ ${category.toUpperCase()} ]`}
       </Text>
 
-      {/* Crime Scene Red String Connection to Desk Center */}
+      {/* Crime Scene Red String Connection to Origin */}
       <line>
         <bufferGeometry>
           <float32BufferAttribute
@@ -124,7 +155,7 @@ function CrimeScenePin({
             ]}
           />
         </bufferGeometry>
-        <lineBasicMaterial color="#ff003c" linewidth={2} opacity={0.7} transparent />
+        <lineBasicMaterial color="#ff003c" linewidth={2} opacity={0.75} transparent />
       </line>
     </group>
   );
@@ -134,17 +165,14 @@ function CrimeScenePin({
 function CrimeSceneBoard() {
   return (
     <group position={[0, 1.0, -2.5]}>
-      {/* Board Wooden / Metallic Frame */}
       <mesh receiveShadow position={[0, 0, -0.05]}>
         <boxGeometry args={[5.2, 2.4, 0.06]} />
         <meshStandardMaterial color="#0f172a" roughness={0.9} metalness={0.2} />
       </mesh>
-      {/* Cork Texture Plate */}
       <mesh receiveShadow position={[0, 0, 0]}>
         <planeGeometry args={[5.0, 2.2]} />
         <meshStandardMaterial color="#1e1b18" roughness={0.95} />
       </mesh>
-      {/* Top Banner */}
       <Text
         position={[0, 0.95, 0.02]}
         fontSize={0.09}
@@ -158,11 +186,10 @@ function CrimeSceneBoard() {
   );
 }
 
-// Camera Rig for Smooth Cinematic Zoom on Project Pin Click
+// Cinematic Camera Controller
 function CameraController({ selectedPinCoords }: { selectedPinCoords: [number, number, number] | null }) {
   useFrame((state) => {
     if (selectedPinCoords) {
-      // Smooth interpolation gliding towards the pinned note
       const targetPos = new THREE.Vector3(
         selectedPinCoords[0],
         selectedPinCoords[1],
@@ -171,7 +198,6 @@ function CameraController({ selectedPinCoords }: { selectedPinCoords: [number, n
       state.camera.position.lerp(targetPos, 0.05);
       state.camera.lookAt(selectedPinCoords[0], selectedPinCoords[1], selectedPinCoords[2]);
     } else {
-      // Default room view interpolation
       const defaultPos = new THREE.Vector3(0, 0.6, 4.0);
       state.camera.position.lerp(defaultPos, 0.05);
       state.camera.lookAt(0, 0, 0);
@@ -183,6 +209,26 @@ function CameraController({ selectedPinCoords }: { selectedPinCoords: [number, n
 
 export const RoomCanvas: React.FC<RoomSceneProps> = ({ caseStudies }) => {
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+
+  // Periodic typing audio clacks from the developer's laptop
+  useEffect(() => {
+    const typingInterval = setInterval(() => {
+      if (Math.random() > 0.4) {
+        cyberAudio.playKeyClick();
+      }
+    }, 900);
+    return () => clearInterval(typingInterval);
+  }, []);
+
+  const handleSelect = (slug: string) => {
+    setSelectedSlug(slug);
+    cyberAudio.playHologramOpen();
+  };
+
+  const handleClose = () => {
+    setSelectedSlug(null);
+    cyberAudio.playHologramClose();
+  };
 
   const selectedStudy = caseStudies.find((s) => s.slug === selectedSlug);
   const selectedCoords: [number, number, number] | null = selectedStudy
@@ -197,28 +243,30 @@ export const RoomCanvas: React.FC<RoomSceneProps> = ({ caseStudies }) => {
     <div className="w-full h-full relative cursor-grab active:cursor-grabbing">
       <Canvas
         camera={{ position: [0, 0.6, 4.0], fov: 45 }}
-        gl={{ antialias: true, alpha: false }}
+        gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
         onCreated={({ gl, scene }) => {
           scene.background = new THREE.Color('#05070f');
           gl.toneMapping = THREE.ACESFilmicToneMapping;
+          gl.toneMappingExposure = 1.2;
         }}
-        onClick={() => setSelectedSlug(null)}
+        onClick={handleClose}
       >
         <ambientLight intensity={0.5} />
         <directionalLight position={[5, 8, 5]} intensity={1.5} castShadow />
-        <pointLight position={[0, 2, 0]} color="#00f0ff" intensity={2.5} distance={9} />
+        <pointLight position={[0, 2, 0]} color="#00f0ff" intensity={3} distance={10} />
         <pointLight position={[-3, 1, -2]} color="#ff003c" intensity={2} distance={7} />
 
-        {/* Cinematic Camera Controller */}
+        {/* Camera Interpolator */}
         <CameraController selectedPinCoords={selectedCoords} />
 
-        {/* 4.2 Avatar and AI Desk */}
+        {/* Avatar and Cyber Workstation Desk */}
         <AvatarModel />
         <CyberDesk />
 
-        {/* 4.3 Crime Scene Board with Red Strings & Sticky Notes */}
+        {/* Crime Scene Board */}
         <CrimeSceneBoard />
 
+        {/* Pinned Case Studies */}
         {caseStudies.map((study, idx) => {
           const coords = study.data.coordinates || {
             x: (idx - 1) * 1.5,
@@ -235,14 +283,14 @@ export const RoomCanvas: React.FC<RoomSceneProps> = ({ caseStudies }) => {
                 title={study.data.title}
                 category={study.data.category}
                 isSelected={isSelected}
-                onClick={() => setSelectedSlug(study.slug)}
+                onClick={() => handleSelect(study.slug)}
               />
-              {/* 4.4 Hologram Projector on Click */}
+              {/* Holographic Projection Modal */}
               {isSelected && (
                 <group position={[coords.x, coords.y, coords.z]}>
                   <HologramModal
                     study={study}
-                    onClose={() => setSelectedSlug(null)}
+                    onClose={handleClose}
                   />
                 </group>
               )}
@@ -253,7 +301,7 @@ export const RoomCanvas: React.FC<RoomSceneProps> = ({ caseStudies }) => {
         {/* Cyber Grid Floor */}
         <gridHelper args={[24, 24, '#00f0ff', '#1e293b']} position={[0, -1.2, 0]} />
 
-        {/* Manual Orbit Navigation when not locked on a pin */}
+        {/* Orbit Controls */}
         {!selectedSlug && (
           <OrbitControls
             enablePan={false}
