@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Text, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
-import { AvatarModel } from './3d/AvatarModel';
+import { Avatar } from './3d/Avatar';
 import { CyberDesk } from './3d/CyberDesk';
 import { HologramModal } from './3d/HologramModal';
 import { cyberAudio } from '../utils/cyberAudio';
@@ -260,7 +260,9 @@ export const RoomCanvas: React.FC<RoomSceneProps> = ({ caseStudies }) => {
         <CameraController selectedPinCoords={selectedCoords} />
 
         {/* Avatar and Cyber Workstation Desk */}
-        <AvatarModel />
+        <group position={[0, -0.7, -0.3]} rotation={[0, 0, 0]} scale={1.2}>
+          <Avatar animation="typing" />
+        </group>
         <CyberDesk />
 
         {/* Crime Scene Board */}
