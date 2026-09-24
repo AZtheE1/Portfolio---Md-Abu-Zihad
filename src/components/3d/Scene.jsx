@@ -7,6 +7,7 @@ import Avatar from './Avatar';
 import Desk from './Desk';
 import Chair from './Chair';
 import Laptop from './Laptop';
+import ThreeErrorBoundary from './ThreeErrorBoundary';
 
 // Professional Cyber Loading Overlay
 function Loader() {
@@ -57,7 +58,7 @@ export default function Scene() {
     deskScale: { value: 2.50, min: 0.1, max: 5, step: 0.05 },
   });
 
-  // 4. Chair Controls: locked to your confirmed screenshot values
+  // 4. Chair Controls (your confirmed position)
   const chairControls = useControls('💺 Chair Positioning', {
     chairX: { value: 0.41, min: -5, max: 5, step: 0.01 },
     chairY: { value: -0.01, min: -5, max: 5, step: 0.01 },
@@ -94,40 +95,48 @@ export default function Scene() {
           <group position={[0, -1, 0]}>
             
             {/* Desk */}
-            <group 
-              position={[deskControls.deskX, deskControls.deskY, deskControls.deskZ]} 
-              rotation={[0, deskControls.deskRotY, 0]} 
-              scale={deskControls.deskScale}
-            >
-              <Desk />
-            </group>
+            <ThreeErrorBoundary name="Desk">
+              <group 
+                position={[deskControls.deskX, deskControls.deskY, deskControls.deskZ]} 
+                rotation={[0, deskControls.deskRotY, 0]} 
+                scale={deskControls.deskScale}
+              >
+                <Desk />
+              </group>
+            </ThreeErrorBoundary>
 
             {/* Laptop on Desk surface */}
-            <group 
-              position={[laptopControls.laptopX, laptopControls.laptopY, laptopControls.laptopZ]} 
-              rotation={[0, laptopControls.laptopRotY, 0]} 
-              scale={laptopControls.laptopScale}
-            >
-              <Laptop />
-            </group>
+            <ThreeErrorBoundary name="Laptop">
+              <group 
+                position={[laptopControls.laptopX, laptopControls.laptopY, laptopControls.laptopZ]} 
+                rotation={[0, laptopControls.laptopRotY, 0]} 
+                scale={laptopControls.laptopScale}
+              >
+                <Laptop />
+              </group>
+            </ThreeErrorBoundary>
 
-            {/* Chair behind Desk - perfectly situated under Avatar */}
-            <group 
-              position={[chairControls.chairX, chairControls.chairY, chairControls.chairZ]} 
-              rotation={[0, chairControls.chairRotY, 0]} 
-              scale={chairControls.chairScale}
-            >
-              <Chair />
-            </group>
+            {/* Chair behind Desk */}
+            <ThreeErrorBoundary name="Chair">
+              <group 
+                position={[chairControls.chairX, chairControls.chairY, chairControls.chairZ]} 
+                rotation={[0, chairControls.chairRotY, 0]} 
+                scale={chairControls.chairScale}
+              >
+                <Chair />
+              </group>
+            </ThreeErrorBoundary>
 
-            {/* Avatar seated in Chair */}
-            <group 
-              position={[avatarControls.avatarX, avatarControls.avatarY, avatarControls.avatarZ]} 
-              rotation={[0, avatarControls.avatarRotY, 0]} 
-              scale={avatarControls.avatarScale}
-            >
-              <Avatar animation={avatarControls.avatarAnim} />
-            </group>
+            {/* Avatar seated in Chair - Isolated with its own ErrorBoundary */}
+            <ThreeErrorBoundary name="Avatar">
+              <group 
+                position={[avatarControls.avatarX, avatarControls.avatarY, avatarControls.avatarZ]} 
+                rotation={[0, avatarControls.avatarRotY, 0]} 
+                scale={avatarControls.avatarScale}
+              >
+                <Avatar animation={avatarControls.avatarAnim} />
+              </group>
+            </ThreeErrorBoundary>
 
             {/* Contact Floor Shadow */}
             <ContactShadows 
