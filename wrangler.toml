@@ -1,0 +1,4 @@
+# Cloudflare Pages edge build config
+[build]
+command = "npm run build"
+output = "dist"
