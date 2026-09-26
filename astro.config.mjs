@@ -12,7 +12,7 @@ export default defineConfig({
   ],
   vite: {
     ssr: {
-      noExternal: ['three', '@react-three/fiber', '@react-three/drei'],
+      noExternal: ['gsap', 'howler', 'lucide-react'],
     },
   },
 });
